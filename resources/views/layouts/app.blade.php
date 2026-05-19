@@ -85,7 +85,7 @@
             Pengiriman
         </a>
 
-        <a href="#">
+        <a href="/scan-qr">
             <i class="bi bi-qr-code-scan"></i>
             Scan QR
         </a>

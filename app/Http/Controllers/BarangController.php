@@ -30,7 +30,7 @@ class BarangController extends Controller
 
     $qr = base64_encode(
         QrCode::format('svg')
-            ->size(200)
+            ->size(500)
             ->generate($request->kode_barang)
     );
 

@@ -22,4 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('barang', BarangController::class);
 });
 
+Route::get('/scan-qr', function () {
+    return view('scan.index');
+})->middleware('auth');
+
 require __DIR__.'/auth.php';
