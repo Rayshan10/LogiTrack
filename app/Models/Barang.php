@@ -12,5 +12,6 @@ class Barang extends Model
     'kategori',
     'jumlah',
     'deskripsi',
+    'qr_code',
 ];
 }

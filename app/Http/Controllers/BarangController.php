@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BarangController extends Controller
 {
@@ -19,12 +20,32 @@ class BarangController extends Controller
     }
 
     public function store(Request $request)
-    {
-        Barang::create($request->all());
+{
+    $request->validate([
+        'kode_barang' => 'required|unique:barangs',
+        'nama_barang' => 'required',
+        'kategori' => 'required',
+        'jumlah' => 'required|integer',
+    ]);
 
-        return redirect('/barang')
-            ->with('success', 'Data barang berhasil ditambahkan');
-    }
+    $qr = base64_encode(
+        QrCode::format('svg')
+            ->size(200)
+            ->generate($request->kode_barang)
+    );
+
+    Barang::create([
+        'kode_barang' => $request->kode_barang,
+        'nama_barang' => $request->nama_barang,
+        'kategori' => $request->kategori,
+        'jumlah' => $request->jumlah,
+        'deskripsi' => $request->deskripsi,
+        'qr_code' => $qr,
+    ]);
+
+    return redirect('/barang')
+        ->with('success', 'Data barang berhasil ditambahkan');
+}
 
     public function edit($id)
     {

@@ -11,7 +11,7 @@
             <h3>Data Barang</h3>
 
             <a href="{{ route('barang.create') }}"
-               class="btn btn-primary">
+                class="btn btn-primary">
                 Tambah Barang
             </a>
 
@@ -31,6 +31,7 @@
                     <th>Nama Barang</th>
                     <th>Kategori</th>
                     <th>Jumlah</th>
+                    <th>QR Code</th>
                     <th width="200">Aksi</th>
                 </tr>
             </thead>
@@ -44,17 +45,19 @@
                     <td>{{ $b->nama_barang }}</td>
                     <td>{{ $b->kategori }}</td>
                     <td>{{ $b->jumlah }}</td>
+                    <td>
+                        <img src="data:image/svg+xml;base64,{{ $b->qr_code }}"width="80">
+                    </td>
 
                     <td>
-
                         <a href="{{ route('barang.edit', $b->id) }}"
-                           class="btn btn-warning btn-sm">
+                            class="btn btn-warning btn-sm">
                             Edit
                         </a>
 
                         <form action="{{ route('barang.destroy', $b->id) }}"
-                              method="POST"
-                              class="d-inline">
+                                method="POST"
+                                class="d-inline">
 
                             @csrf
                             @method('DELETE')
