@@ -1,35 +1,83 @@
-<h1>Data Barang</h1>
+@extends('layouts.app')
 
-<a href="{{ route('barang.create') }}">Tambah Barang</a>
+@section('content')
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Kode</th>
-        <th>Nama</th>
-        <th>Kategori</th>
-        <th>Jumlah</th>
-        <th>Aksi</th>
-    </tr>
+<div class="card card-dashboard">
 
-    @foreach($barang as $b)
-    <tr>
-        <td>{{ $b->kode_barang }}</td>
-        <td>{{ $b->nama_barang }}</td>
-        <td>{{ $b->kategori }}</td>
-        <td>{{ $b->jumlah }}</td>
-        <td>
-            <a href="{{ route('barang.edit', $b->id) }}">Edit</a>
+    <div class="card-body">
 
-            <form action="{{ route('barang.destroy', $b->id) }}"
-                method="POST">
-                @csrf
-                @method('DELETE')
+        <div class="d-flex justify-content-between mb-3">
 
-                <button type="submit">
-                    Hapus
-                </button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</table>
+            <h3>Data Barang</h3>
+
+            <a href="{{ route('barang.create') }}"
+               class="btn btn-primary">
+                Tambah Barang
+            </a>
+
+        </div>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-primary">
+                <tr>
+                    <th>Kode</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Jumlah</th>
+                    <th width="200">Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach($barang as $b)
+
+                <tr>
+                    <td>{{ $b->kode_barang }}</td>
+                    <td>{{ $b->nama_barang }}</td>
+                    <td>{{ $b->kategori }}</td>
+                    <td>{{ $b->jumlah }}</td>
+
+                    <td>
+
+                        <a href="{{ route('barang.edit', $b->id) }}"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <form action="{{ route('barang.destroy', $b->id) }}"
+                              method="POST"
+                              class="d-inline">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                Hapus
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+@endsection

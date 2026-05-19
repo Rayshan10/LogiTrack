@@ -1,22 +1,60 @@
-<h1>Tambah Barang</h1>
+@extends('layouts.app')
 
-<form action="{{ route('barang.store') }}" method="POST">
-    @csrf
+@section('content')
 
-    <input type="text" name="kode_barang" placeholder="Kode Barang">
-    <br><br>
+<div class="card card-dashboard">
 
-    <input type="text" name="nama_barang" placeholder="Nama Barang">
-    <br><br>
+    <div class="card-body">
 
-    <input type="text" name="kategori" placeholder="Kategori">
-    <br><br>
+        <h3 class="mb-4">Tambah Barang</h3>
 
-    <input type="number" name="jumlah" placeholder="Jumlah">
-    <br><br>
+        <form action="{{ route('barang.store') }}" method="POST">
 
-    <textarea name="deskripsi" placeholder="Deskripsi"></textarea>
-    <br><br>
+            @csrf
 
-    <button type="submit">Simpan</button>
-</form>
+            <div class="mb-3">
+                <label>Kode Barang</label>
+                <input type="text"
+                       name="kode_barang"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Nama Barang</label>
+                <input type="text"
+                       name="nama_barang"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Kategori</label>
+                <input type="text"
+                       name="kategori"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Jumlah</label>
+                <input type="number"
+                       name="jumlah"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Deskripsi</label>
+                <textarea name="deskripsi"
+                          class="form-control"></textarea>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Simpan
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+@endsection

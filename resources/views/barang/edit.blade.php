@@ -1,31 +1,66 @@
-<h1>Edit Barang</h1>
+@extends('layouts.app')
 
-<form action="{{ route('barang.update', $barang->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+@section('content')
 
-    <input type="text"
-           name="kode_barang"
-           value="{{ $barang->kode_barang }}">
-    <br><br>
+<div class="card card-dashboard">
 
-    <input type="text"
-           name="nama_barang"
-           value="{{ $barang->nama_barang }}">
-    <br><br>
+    <div class="card-body">
 
-    <input type="text"
-           name="kategori"
-           value="{{ $barang->kategori }}">
-    <br><br>
+        <h3 class="mb-4">Edit Barang</h3>
 
-    <input type="number"
-           name="jumlah"
-           value="{{ $barang->jumlah }}">
-    <br><br>
+        <form action="{{ route('barang.update', $barang->id) }}"
+              method="POST">
 
-    <textarea name="deskripsi">{{ $barang->deskripsi }}</textarea>
-    <br><br>
+            @csrf
+            @method('PUT')
 
-    <button type="submit">Update</button>
-</form>
+            <div class="mb-3">
+                <label>Kode Barang</label>
+                <input type="text"
+                       name="kode_barang"
+                       value="{{ $barang->kode_barang }}"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Nama Barang</label>
+                <input type="text"
+                       name="nama_barang"
+                       value="{{ $barang->nama_barang }}"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Kategori</label>
+                <input type="text"
+                       name="kategori"
+                       value="{{ $barang->kategori }}"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Jumlah</label>
+                <input type="number"
+                       name="jumlah"
+                       value="{{ $barang->jumlah }}"
+                       class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Deskripsi</label>
+                <textarea name="deskripsi"
+                          class="form-control">{{ $barang->deskripsi }}</textarea>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Update
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+@endsection
