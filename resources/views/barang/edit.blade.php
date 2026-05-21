@@ -8,7 +8,7 @@
 
         <h3 class="mb-4">Edit Barang</h3>
 
-        <form action="{{ route('barang.update', $barang->id) }}"
+        <form action="{{ route('barang.update', $barang->kode_barang) }}"
               method="POST">
 
             @csrf

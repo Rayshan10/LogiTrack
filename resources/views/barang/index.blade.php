@@ -82,18 +82,18 @@
                             </button>
 
                             <button class="btn btn-info btn-sm w-100"
-                                onclick="copyTrackingLink('{{ url('/barang/'.$b->id) }}')">
+                                onclick="copyTrackingLink('{{ url('/barang/'.$b->kode_barang) }}')">
                                 <i class="bi bi-clipboard"></i>
                                 Copy Link Tracking
                             </button>
 
-                            <a href="{{ route('barang.edit', $b->id) }}"
+                            <a href="{{ route('barang.edit', $b->kode_barang) }}"
                                 class="btn btn-warning btn-sm w-100">
                                 <i class="bi bi-pencil"></i>
                                 Edit
                             </a>
 
-                            <form action="{{ route('barang.destroy', $b->id) }}"
+                            <form action="{{ route('barang.destroy', $b->kode_barang) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')

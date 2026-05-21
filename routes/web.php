@@ -36,4 +36,8 @@ Route::post('/barang/{id}/update-status',
     [BarangController::class, 'updateStatus'])
     ->middleware('auth');
 
+Route::post('/scan/update-status',
+    [BarangController::class, 'scanUpdateStatus'])
+    ->middleware('auth');
+
 require __DIR__.'/auth.php';

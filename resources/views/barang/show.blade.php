@@ -29,7 +29,7 @@
         </table>
 
         <hr>
-        <h4 class="mb-3">Update Status Distribusi</h4>
+        <h3 class="mb-3">Update Status Distribusi</h3>
         <form action="/barang/{{ $barang->id }}/update-status"method="POST">
             @csrf
             <div class="row">
@@ -60,6 +60,7 @@
             </div>
         </form>
 
+        <hr>
         <h3 class="mb-4">Timeline Distribusi</h3>
         <div class="timeline">
             @foreach($barang->trackings as $tracking)

@@ -20,4 +20,9 @@ class Barang extends Model
     {
         return $this->hasMany(Tracking::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'kode_barang';
+    }
 }
