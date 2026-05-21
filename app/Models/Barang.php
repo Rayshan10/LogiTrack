@@ -13,5 +13,11 @@ class Barang extends Model
     'jumlah',
     'deskripsi',
     'qr_code',
-];
+    'status',
+    ];
+
+    public function trackings()
+    {
+        return $this->hasMany(Tracking::class);
+    }
 }

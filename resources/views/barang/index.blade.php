@@ -35,6 +35,7 @@
                     <th>Kategori</th>
                     <th>Jumlah</th>
                     <th>QR Code</th>
+                    <th>Status</th>
                     <th width="170">Aksi</th>
                 </tr>
             </thead>
@@ -51,7 +52,25 @@
                     <td>
                         <img src="data:image/svg+xml;base64,{{ $b->qr_code }}"width="180">
                     </td>
-
+                    <td>
+                        @if($b->status == 'Barang Diproses')
+                        <span class="badge bg-warning">
+                            {{ $b->status }}
+                        </span>
+                        @elseif($b->status == 'Barang Dikirim')
+                        <span class="badge bg-primary">
+                            {{ $b->status }}
+                        </span>
+                        @elseif($b->status == 'Barang Sampai Gudang')
+                        <span class="badge bg-info">
+                            {{ $b->status }}
+                        </span>
+                        @else
+                        <span class="badge bg-success">
+                        {{ $b->status }}
+                        </span>
+                        @endif
+                    </td>
                     <td>
                         <div class="d-flex flex-column gap-2">
                             

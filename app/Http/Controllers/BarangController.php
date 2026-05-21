@@ -6,6 +6,7 @@ use App\Models\Barang;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Tracking;
 
 class BarangController extends Controller
 {
@@ -35,6 +36,12 @@ class BarangController extends Controller
             'kategori' => $request->kategori,
             'jumlah' => $request->jumlah,
             'deskripsi' => $request->deskripsi,
+        ]);
+
+        Tracking::create([
+            'barang_id' => $barang->id,
+            'status' => 'Barang Diproses',
+            'lokasi' => 'Gudang Utama',
         ]);
 
         $qr = base64_encode(
@@ -77,6 +84,8 @@ class BarangController extends Controller
 
     public function show(Barang $barang)
     {
+        $barang->load('trackings');
+
         return view('barang.show', compact('barang'));
     }
 
@@ -102,14 +111,14 @@ class BarangController extends Controller
     }
 
     public function exportPdfQr()
-{
-    $barang = Barang::all();
+    {
+        $barang = Barang::all();
 
-    $pdf = Pdf::loadView(
-        'barang.export-pdf-qr',
-        compact('barang')
-    );
+        $pdf = Pdf::loadView(
+            'barang.export-pdf-qr',
+            compact('barang')
+        );
 
-    return $pdf->download('qr-barang.pdf');
-}
+        return $pdf->download('qr-barang.pdf');
+    }
 }

@@ -32,4 +32,8 @@ Route::get('/barang/export/pdf-qr',
     [BarangController::class, 'exportPdfQr'])
     ->middleware('auth');
 
+Route::post('/barang/{id}/update-status',
+    [BarangController::class, 'updateStatus'])
+    ->middleware('auth');
+
 require __DIR__.'/auth.php';
