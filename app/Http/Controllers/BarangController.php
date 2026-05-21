@@ -19,37 +19,36 @@ class BarangController extends Controller
         return view('barang.create');
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'kode_barang' => 'required|unique:barangs',
-        'nama_barang' => 'required',
-        'kategori' => 'required',
-        'jumlah' => 'required|integer',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'kode_barang' => 'required|unique:barangs',
+            'nama_barang' => 'required',
+            'kategori' => 'required',
+            'jumlah' => 'required|integer',
+        ]);
 
-    $barang = Barang::create([
-        'kode_barang' => $request->kode_barang,
-        'nama_barang' => $request->nama_barang,
-        'kategori' => $request->kategori,
-        'jumlah' => $request->jumlah,
-        'deskripsi' => $request->deskripsi,
-    ]);
+        $barang = Barang::create([
+            'kode_barang' => $request->kode_barang,
+            'nama_barang' => $request->nama_barang,
+            'kategori' => $request->kategori,
+            'jumlah' => $request->jumlah,
+            'deskripsi' => $request->deskripsi,
+        ]);
 
-    $qr = base64_encode(
-        QrCode::format('svg')
-            ->size(500)
-            ->margin(2)
-            ->generate(url('/barang/' . $barang->id))
-    );
+        $qr = base64_encode(
+            QrCode::format('svg')
+                ->size(500)
+                ->margin(2)
+                ->generate(url('/barang/' . $barang->id))
+        );
 
-    $barang->update([
+        $barang->update([
         'qr_code' => $qr
-    ]);
+        ]);
 
-    return redirect('/barang')
-        ->with('success', 'Data barang berhasil ditambahkan');
-}
+        return redirect('/barang')->with('success', 'Data barang berhasil ditambahkan');
+    }
 
     public function edit($id)
     {
@@ -78,5 +77,26 @@ public function store(Request $request)
     public function show(Barang $barang)
     {
         return view('barang.show', compact('barang'));
+    }
+
+    public function downloadQr($id)
+    {
+        $barang = Barang::findOrFail($id);
+
+        $qr = base64_decode($barang->qr_code);
+
+        return response($qr)
+            ->header('Content-Type', 'image/svg+xml')
+            ->header(
+                'Content-Disposition',
+                'attachment; filename="qr-'.$barang->kode_barang.'.svg"'
+            );
+    }
+
+    public function printQr($id)
+    {
+        $barang = Barang::findOrFail($id);
+
+        return view('barang.print-qr', compact('barang'));
     }
 }

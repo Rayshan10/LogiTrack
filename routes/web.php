@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('barang', BarangController::class);
+    Route::get('/barang/{id}/download-qr', [BarangController::class, 'downloadQr'])->middleware('auth');
+    Route::get('/barang/{id}/print-qr', [BarangController::class, 'printQr'])->middleware('auth');
 });
 
 Route::get('/scan-qr', function () {

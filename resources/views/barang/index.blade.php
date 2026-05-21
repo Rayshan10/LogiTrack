@@ -32,7 +32,7 @@
                     <th>Kategori</th>
                     <th>Jumlah</th>
                     <th>QR Code</th>
-                    <th width="200">Aksi</th>
+                    <th width="170">Aksi</th>
                 </tr>
             </thead>
 
@@ -50,37 +50,41 @@
                     </td>
 
                     <td>
-                        <a href="{{ route('barang.edit', $b->id) }}"
-                            class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="/barang/{{ $b->id }}/download-qr"
+                                class="btn btn-success btn-sm w-100">
+                                <i class="bi bi-download"></i>
+                                Download QR
+                            </a>
 
-                        <form action="{{ route('barang.destroy', $b->id) }}"
-                                method="POST"
-                                class="d-inline">
+                            <a href="/barang/{{ $b->id }}/print-qr"
+                                target="_blank"
+                                class="btn btn-secondary btn-sm w-100">
+                                <i class="bi bi-printer"></i>
+                                Cetak QR
+                            </a>
 
-                            @csrf
-                            @method('DELETE')
+                            <a href="{{ route('barang.edit', $b->id) }}"
+                                class="btn btn-warning btn-sm w-100">
+                                <i class="bi bi-pencil"></i>
+                                Edit
+                            </a>
 
-                            <button type="submit"
-                                    class="btn btn-danger btn-sm">
-                                Hapus
-                            </button>
-
-                        </form>
-
+                            <form action="{{ route('barang.destroy', $b->id) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm w-100">
+                                        <i class="bi bi-trash"></i>
+                                    Hapus
+                                </button>
+                            </form>
+                        </div>
                     </td>
-
                 </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
-
-    </div>
-
+            @endforeach
+        </tbody>
+    </table>
 </div>
-
 @endsection
