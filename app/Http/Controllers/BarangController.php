@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BarangController extends Controller
 {
@@ -99,4 +100,16 @@ class BarangController extends Controller
 
         return view('barang.print-qr', compact('barang'));
     }
+
+    public function exportPdfQr()
+{
+    $barang = Barang::all();
+
+    $pdf = Pdf::loadView(
+        'barang.export-pdf-qr',
+        compact('barang')
+    );
+
+    return $pdf->download('qr-barang.pdf');
+}
 }

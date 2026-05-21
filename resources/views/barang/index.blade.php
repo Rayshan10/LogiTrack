@@ -6,13 +6,16 @@
 
     <div class="card-body">
 
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
 
             <h3>Data Barang</h3>
 
             <a href="{{ route('barang.create') }}"
                 class="btn btn-primary">
                 Tambah Barang
+            </a>
+            <a href="/barang/export/pdf-qr" class="btn btn-danger">
+                Export PDF QR
             </a>
 
         </div>
@@ -51,18 +54,19 @@
 
                     <td>
                         <div class="d-flex flex-column gap-2">
-                            <a href="/barang/{{ $b->id }}/download-qr"
-                                class="btn btn-success btn-sm w-100">
-                                <i class="bi bi-download"></i>
-                                Download QR
-                            </a>
+                            
+                            <button type="button"
+                                class="btn btn-success btn-sm w-100"
+                                data-bs-toggle="modal"
+                                data-bs-target="#qrModal{{ $b->id }}">
+                                Preview QR
+                            </button>
 
-                            <a href="/barang/{{ $b->id }}/print-qr"
-                                target="_blank"
-                                class="btn btn-secondary btn-sm w-100">
-                                <i class="bi bi-printer"></i>
-                                Cetak QR
-                            </a>
+                            <button class="btn btn-info btn-sm w-100"
+                                onclick="copyTrackingLink('{{ url('/barang/'.$b->id) }}')">
+                                <i class="bi bi-clipboard"></i>
+                                Copy Link Tracking
+                            </button>
 
                             <a href="{{ route('barang.edit', $b->id) }}"
                                 class="btn btn-warning btn-sm w-100">
@@ -83,8 +87,55 @@
                         </div>
                     </td>
                 </tr>
+
+                <!-- Modal Preview QR -->
+                <div class="modal fade" id="qrModal{{ $b->id }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    QR Barang
+                                </h5>
+                                <button
+                                    type="button" class="btn-close" data-bs-dismiss="modal">
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body text-center">
+                                <h5>
+                                    {{ $b->nama_barang }}
+                                </h5>
+                                <p>
+                                    {{ $b->kode_barang }}
+                                </p>
+                                <img src="data:image/svg+xml;base64,{{ $b->qr_code }}"width="300">
+                            </div>
+
+                            <div class="modal-footer">
+                                <a href="/barang/{{ $b->id }}/download-qr" class="btn btn-success">
+                                    <i class="bi bi-download"></i>
+                                    Download QR
+                                </a>
+
+                                <a href="/barang/{{ $b->id }}/print-qr" target="_blank" class="btn btn-secondary">
+                                    <i class="bi bi-printer"></i>
+                                    Cetak QR
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         </tbody>
     </table>
 </div>
+
+<script>
+    function copyTrackingLink(link)
+    {
+        navigator.clipboard.writeText(link);
+        alert('Link tracking berhasil disalin!');
+    }
+</script>
+
 @endsection

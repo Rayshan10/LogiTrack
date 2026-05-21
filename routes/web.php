@@ -28,4 +28,8 @@ Route::get('/scan-qr', function () {
     return view('scan.index');
 })->middleware('auth');
 
+Route::get('/barang/export/pdf-qr',
+    [BarangController::class, 'exportPdfQr'])
+    ->middleware('auth');
+
 require __DIR__.'/auth.php';
