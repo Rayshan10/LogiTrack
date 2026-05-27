@@ -37,9 +37,10 @@ class DashboardController extends Controller
             )->count();
 
         $trackingTerbaru =
-            Tracking::latest()
-                ->take(5)
-                ->get();
+            Tracking::with('barang')
+                    ->latest()
+                    ->take(5)
+                    ->get();
         
         $rankingSAW = 
             Barang::orderByDesc(

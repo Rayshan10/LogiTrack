@@ -83,22 +83,82 @@ function onScanSuccess(decodedText)
 
         console.log(data);
 
-        if (data.success) {
+        if (data.success)
+        {
+            let pesan =
+                'Status distribusi berhasil diperbarui';
 
-            document.getElementById('result').innerHTML = `
-                <div class="text-success">
-                    Status berhasil diperbarui
-                </div>
-            `;
+            /*
+            |--------------------------------------------------------------------------
+            | Jika barang diterima
+            |--------------------------------------------------------------------------
+            */
 
-            // stop scanner
-            html5QrcodeScanner.clear();
+            if(status == 'Barang Diterima')
+            {
+                pesan =
+                    'Barang berhasil diterima';
+            }
 
-            // redirect setelah tracking tersimpan
-            setTimeout(() => {
-                window.location.href =
-                    '/barang/' + data.barang.kode_barang;
-            }, 1200);
+            /*
+            |--------------------------------------------------------------------------
+            | Popup SweetAlert
+            |--------------------------------------------------------------------------
+            */
+
+        Swal.fire({
+
+            icon: 'success',
+
+            title: 'Berhasil!',
+
+            text: pesan,
+
+            timer: 2000,
+
+            showConfirmButton: false
+
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update result box
+        |--------------------------------------------------------------------------
+        */
+
+        document.getElementById('result').innerHTML = `
+
+            <div class="text-success">
+
+                <strong>
+                    QR berhasil diproses
+                </strong>
+
+            </div>
+
+        `;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Stop scanner
+        |--------------------------------------------------------------------------
+        */
+
+        html5QrcodeScanner.clear();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Redirect
+        |--------------------------------------------------------------------------
+        */
+
+        setTimeout(() => {
+
+            window.location.href =
+                '/barang/' +
+                data.barang.kode_barang;
+
+        }, 2000);
 
         } else {
             scanning = false;

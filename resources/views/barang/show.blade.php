@@ -28,7 +28,25 @@
             </tr>
             <tr>
                 <th>Status Barang</th>
-                <td>{{ $barang->status }}</td>
+                <td>
+                    @if($barang->status == 'Barang Diproses')
+                        <span class="badge bg-warning text-dark">
+                            Barang Diproses
+                        </span>
+                    @elseif($barang->status == 'Barang Dikirim')
+                        <span class="badge bg-primary">
+                            Barang Dikirim
+                        </span>
+                    @elseif($barang->status == 'Barang Sampai Gudang')
+                        <span class="badge bg-info text-dark">
+                            Barang Sampai Gudang
+                        </span>
+                    @elseif($barang->status == 'Barang Diterima')
+                        <span class="badge bg-success">
+                            Barang Diterima
+                        </span>
+                    @endif
+                </td>
             </tr>
         </table>
 
@@ -38,7 +56,23 @@
             @foreach($barang->trackings as $tracking)
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5>{{ $tracking->status }}</h5>
+                    @if($tracking->status == 'Barang Diproses')
+                        <span class="badge bg-warning text-dark mb-2">
+                            Barang Diproses
+                        </span>
+                    @elseif($tracking->status == 'Barang Dikirim')
+                        <span class="badge bg-primary mb-2">
+                            Barang Dikirim
+                        </span>
+                    @elseif($tracking->status == 'Barang Sampai Gudang')
+                        <span class="badge bg-info text-dark mb-2">
+                            Barang Sampai Gudang
+                        </span>
+                    @elseif($tracking->status == 'Barang Diterima')
+                        <span class="badge bg-success mb-2">
+                            Barang Diterima
+                        </span>
+                    @endif
                     <p class="mb-1">Lokasi:{{ $tracking->lokasi }}</p>
                     <small class="text-muted">{{ $tracking->created_at->format('d M Y H:i') }}</small>
                 </div>

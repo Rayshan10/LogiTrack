@@ -115,18 +115,26 @@
                 Aktivitas Distribusi Terbaru
             </h4>
 
+            @php
+                $barangDiterimaTerbaru = $trackingTerbaru
+                    ->where('status', 'Barang Diterima')
+                    ->first();
+            @endphp
+
             <table class="table table-bordered table-striped">
 
                 <thead class="table-dark">
 
                     <tr>
+                        <th>Kode Barang</th>
+
+                        <th>Nama Barang</th>
 
                         <th>Status</th>
 
                         <th>Lokasi</th>
 
                         <th>Waktu</th>
-
                     </tr>
 
                 </thead>
@@ -136,9 +144,31 @@
                     @foreach($trackingTerbaru as $tracking)
 
                     <tr>
+                        <td>
+                            {{ $tracking->barang->kode_barang }}
+                        </td>
+                        <td>
+                            {{ $tracking->barang->nama_barang }}
+                        </td>
 
                         <td>
-                            {{ $tracking->status }}
+                            @if($tracking->status == 'Barang Diproses')
+                                <span class="badge bg-warning text-dark">
+                                    Barang Diproses
+                                </span>
+                            @elseif($tracking->status == 'Barang Dikirim')
+                                <span class="badge bg-primary">
+                                    Barang Dikirim
+                                </span>
+                            @elseif($tracking->status == 'Barang Sampai Gudang')
+                                <span class="badge bg-info text-dark">
+                                    Barang Sampai Gudang
+                                </span>
+                            @elseif($tracking->status == 'Barang Diterima')
+                                <span class="badge bg-success">
+                                    Barang Diterima
+                                </span>
+                            @endif
                         </td>
 
                         <td>
