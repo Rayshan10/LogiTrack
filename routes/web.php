@@ -45,4 +45,8 @@ Route::get('/hitung-saw',
     [BarangController::class, 'hitungSAW'])
     ->middleware('auth');
 
+Route::get('/export-saw-pdf',
+    [BarangController::class, 'exportSAWPDF'])
+    ->middleware('auth');
+
 require __DIR__.'/auth.php';

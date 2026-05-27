@@ -98,6 +98,8 @@ class BarangController extends Controller
 
         ]);
 
+        $this->prosesSAW();
+
         return redirect('/barang')
             ->with(
                 'success',
@@ -130,6 +132,8 @@ class BarangController extends Controller
     {
         $barang->update($request->all());
 
+        $this->prosesSAW();
+
         return redirect('/barang')
             ->with(
                 'success',
@@ -140,6 +144,8 @@ class BarangController extends Controller
     public function destroy(Barang $barang)
     {
         $barang->delete();
+
+        $this->prosesSAW();
 
         return redirect('/barang')
             ->with(
@@ -234,7 +240,7 @@ class BarangController extends Controller
         ]);
     }
 
-    public function hitungSAW()
+    private function prosesSAW()
     {
         $barang = Barang::all();
 
@@ -255,7 +261,7 @@ class BarangController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Bobot
+        | Bobot SAW
         |--------------------------------------------------------------------------
         */
 
@@ -267,18 +273,12 @@ class BarangController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Hitung SAW
+        | Perhitungan SAW
         |--------------------------------------------------------------------------
         */
 
         foreach($barang as $b)
         {
-        /*
-        |--------------------------------------------------------------------------
-        | Normalisasi
-        |--------------------------------------------------------------------------
-        */
-
             $rUrgensi =
                 $b->urgensi /
                 $maxUrgensi;
@@ -290,12 +290,6 @@ class BarangController extends Controller
             $rKeterlambatan =
                 $b->tingkat_keterlambatan /
                 $maxKeterlambatan;
-
-        /*
-        |--------------------------------------------------------------------------
-        | Nilai akhir SAW
-        |--------------------------------------------------------------------------
-        */
 
             $nilaiSAW =
 
@@ -312,12 +306,6 @@ class BarangController extends Controller
                 ($rKeterlambatan *
                     $bobotKeterlambatan);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Simpan nilai SAW
-        |--------------------------------------------------------------------------
-        */
-
             $b->update([
 
                 'nilai_saw' =>
@@ -325,11 +313,53 @@ class BarangController extends Controller
 
             ]);
         }
+    }
+
+    public function hitungSAW()
+    {
+        $this->prosesSAW();
 
         return redirect('/dashboard')
             ->with(
                 'success',
                 'Perhitungan SAW berhasil'
             );
+    }
+
+    public function exportSAWPDF()
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil ranking SAW
+        |--------------------------------------------------------------------------
+        */
+
+        $rankingSAW = Barang::orderByDesc(
+            'nilai_saw'
+        )->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generate PDF
+        |--------------------------------------------------------------------------
+        */
+
+        $pdf = Pdf::loadView(
+
+            'barang.export-saw-pdf',
+
+            compact('rankingSAW')
+
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Download PDF
+        |--------------------------------------------------------------------------
+        */
+
+        return $pdf->download(
+            'laporan-saw-distribusi.pdf'
+        );
     }
 }

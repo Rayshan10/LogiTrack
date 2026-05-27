@@ -11,11 +11,8 @@
             Dashboard Monitoring Logistik
         </h2>
 
-        <a href="/hitung-saw"
-           class="btn btn-success">
-
+        <a href="/hitung-saw" class="btn btn-success">
             Hitung Prioritas Distribusi (SAW)
-
         </a>
 
     </div>
@@ -292,6 +289,10 @@
                 </tbody>
 
             </table>
+
+            <a href="/export-saw-pdf" class="btn btn-danger mb-4">
+                Export PDF SAW
+            </a>
 
         </div>
 
