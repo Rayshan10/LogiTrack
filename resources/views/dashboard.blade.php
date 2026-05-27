@@ -4,10 +4,23 @@
 
 <div class="container-fluid">
 
-    <h2 class="mb-4">
-        Dashboard Monitoring Logistik
-    </h2>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
+        <h2>
+            Dashboard Monitoring Logistik
+        </h2>
+
+        <a href="/hitung-saw"
+           class="btn btn-success">
+
+            Hitung Prioritas Distribusi (SAW)
+
+        </a>
+
+    </div>
+
+    <!-- Statistik -->
     <div class="row">
 
         <!-- Total Barang -->
@@ -31,7 +44,7 @@
 
         </div>
 
-        <!-- Diproses -->
+        <!-- Barang Diproses -->
         <div class="col-md-3 mb-4">
 
             <div class="card shadow border-0 bg-warning text-white">
@@ -52,7 +65,7 @@
 
         </div>
 
-        <!-- Dikirim -->
+        <!-- Barang Dikirim -->
         <div class="col-md-3 mb-4">
 
             <div class="card shadow border-0 bg-primary text-white">
@@ -73,7 +86,7 @@
 
         </div>
 
-        <!-- Diterima -->
+        <!-- Barang Diterima -->
         <div class="col-md-3 mb-4">
 
             <div class="card shadow border-0 bg-success text-white">
@@ -96,8 +109,8 @@
 
     </div>
 
-    <!-- Timeline Aktivitas -->
-    <div class="card shadow border-0">
+    <!-- Aktivitas Distribusi -->
+    <div class="card shadow border-0 mb-4">
 
         <div class="card-body">
 
@@ -105,9 +118,9 @@
                 Aktivitas Distribusi Terbaru
             </h4>
 
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped">
 
-                <thead>
+                <thead class="table-dark">
 
                     <tr>
 
@@ -151,132 +164,242 @@
 
     </div>
 
-    
-<!-- Ranking Prioritas Distribusi -->
+    <!-- SAW Section -->
+    <div class="card shadow border-0">
 
-<div class="card shadow border-0 mt-4">
+        <div class="card-body">
 
-    <div class="card-body">
+            <h4 class="mb-4">
 
-        <h4 class="mb-4">
+                Ranking Prioritas Distribusi
+                (Metode SAW)
 
-            Ranking Prioritas Distribusi
-            (Metode SAW)
+            </h4>
 
-        </h4>
+            <!-- Barang Prioritas -->
+            @php
+                $topPriority = $rankingSAW->first();
+            @endphp
 
-        @php
-    $topPriority = $rankingSAW->first();
-@endphp
+            @if($topPriority)
 
-@if($topPriority)
+            <div class="alert alert-danger">
 
-<div class="alert alert-danger">
+                <h5>
+                    Barang Prioritas Tertinggi
+                </h5>
 
-    <h5>
-        Barang Prioritas Tertinggi
-    </h5>
+                <strong>
+                    {{ $topPriority->kode_barang }}
+                </strong>
 
-    <strong>
-        {{ $topPriority->kode_barang }}
-    </strong>
-    -
-    {{ $topPriority->nama_barang }}
+                -
+                {{ $topPriority->nama_barang }}
 
-    <br>
+                <br>
 
-    Nilai SAW:
-    {{ $topPriority->nilai_saw }}
+                Nilai SAW:
+                <strong>
+                    {{ $topPriority->nilai_saw }}
+                </strong>
 
-</div>
+            </div>
 
-@endif
+            @endif
 
+            <!-- Grafik SAW -->
+            <div class="mb-5">
 
-            <a href="/hitung-saw" class="btn btn-success mb-4">
-                Hitung Prioritas Distribusi (SAW)
-            </a>
-        <table class="table table-bordered">
+                <canvas id="sawChart"></canvas>
 
-            <thead class="table-dark">
+            </div>
 
-                <tr>
+            <!-- Table Ranking -->
+            <table class="table table-bordered table-striped">
 
-                    <th>Ranking</th>
+                <thead class="table-dark">
 
-                    <th>Kode Barang</th>
+                    <tr>
 
-                    <th>Nama Barang</th>
+                        <th>Ranking</th>
 
-                    <th>Nilai SAW</th>
+                        <th>Kode Barang</th>
 
-                    <th>Prioritas</th>
+                        <th>Nama Barang</th>
 
-                </tr>
+                        <th>Nilai SAW</th>
 
-            </thead>
+                        <th>Prioritas</th>
 
-            <tbody>
+                    </tr>
 
-                @foreach($rankingSAW as $index => $b)
+                </thead>
 
-                <tr>
+                <tbody>
 
-                    <td>
-                        {{ $index + 1 }}
-                    </td>
+                    @foreach($rankingSAW as $index => $b)
 
-                    <td>
-                        {{ $b->kode_barang }}
-                    </td>
+                    <tr>
 
-                    <td>
-                        {{ $b->nama_barang }}
-                    </td>
+                        <td>
+                            {{ $index + 1 }}
+                        </td>
 
-                    <td>
+                        <td>
+                            {{ $b->kode_barang }}
+                        </td>
 
-                        <strong>
-                            {{ $b->nilai_saw }}
-                        </strong>
+                        <td>
+                            {{ $b->nama_barang }}
+                        </td>
 
-                    </td>
+                        <td>
 
-                    <td>
+                            <strong>
+                                {{ $b->nilai_saw }}
+                            </strong>
 
-                        @if($b->nilai_saw >= 0.80)
+                        </td>
 
-                            <span class="badge bg-danger">
-                                Sangat Prioritas
-                            </span>
+                        <td>
 
-                        @elseif($b->nilai_saw >= 0.60)
+                            @if($b->nilai_saw >= 0.80)
 
-                            <span class="badge bg-warning text-dark">
-                                Prioritas
-                            </span>
+                                <span class="badge bg-danger">
+                                    Sangat Prioritas
+                                </span>
 
-                        @else
+                            @elseif($b->nilai_saw >= 0.60)
 
-                            <span class="badge bg-success">
-                                Normal
-                            </span>
+                                <span class="badge bg-warning text-dark">
+                                    Prioritas
+                                </span>
 
-                        @endif
+                            @else
 
-                    </td>
+                                <span class="badge bg-success">
+                                    Normal
+                                </span>
 
-                </tr>
+                            @endif
 
-                @endforeach
+                        </td>
 
-            </tbody>
+                    </tr>
 
-        </table>
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
 </div>
-</div>
+
+<!-- Chart.js -->
+<canvas id="sawChart"></canvas>
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function ()
+{
+    const ctx =
+        document.getElementById(
+            'sawChart'
+        );
+
+    if (!ctx)
+    {
+        console.log(
+            'Canvas sawChart tidak ditemukan'
+        );
+
+        return;
+    }
+
+    new Chart(ctx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels: [
+
+                @foreach($rankingSAW as $b)
+
+                    '{{ $b->kode_barang }}',
+
+                @endforeach
+
+            ],
+
+            datasets: [{
+
+                label:
+                    'Nilai SAW',
+
+                data: [
+
+                    @foreach($rankingSAW as $b)
+
+                        {{ $b->nilai_saw }},
+
+                    @endforeach
+
+                ],
+
+                backgroundColor: [
+
+                    '#dc3545',
+                    '#ffc107',
+                    '#198754',
+                    '#0d6efd',
+                    '#6f42c1'
+
+                ],
+
+                borderWidth: 1
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: true
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    max: 1
+
+                }
+
+            }
+
+        }
+
+    });
+
+});
+
+</script>
 
 @endsection
