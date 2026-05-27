@@ -106,6 +106,66 @@
 
     </div>
 
+    <!-- Filter -->
+
+    <div class="card shadow border-0 mb-4">
+        <div class="card-body">
+            <form method="GET"
+                action="/dashboard">
+                <div class="row">
+                    <!-- Cari kode barang -->
+                    <div class="col-md-3">
+                        <label>Kode Barang</label>
+                        <input type="text"
+                            name="kode_barang"
+                            class="form-control"
+                            placeholder="Cari kode barang"
+                            value="{{ request('kode_barang') }}">
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-2">
+                        <label>Status</label>
+                        <select name="status" class="form-control">
+                            <option value="">Semua</option>
+                            <option value="Barang Diproses">Barang Diproses</option>
+                            <option value="Barang Dikirim">Barang Dikirim</option>
+                            <option value="Barang Sampai Gudang">Barang Sampai Gudang</option>
+                            <option value="Barang Diterima">Barang Diterima</option>
+                        </select>
+                    </div>
+
+                    <!-- Tanggal -->
+                    <div class="col-md-2">
+                        <label>Tanggal</label>
+                        <input type="date"
+                                name="tanggal"
+                                class="form-control"
+                                value="{{ request('tanggal') }}">
+                    </div>
+
+                    <!-- Prioritas -->
+                    <div class="col-md-3">
+                        <label>Prioritas SAW</label>
+                        <select name="prioritas"class="form-control">
+                            <option value="">Semua</option>
+                            <option value="sangat_prioritas">Sangat Prioritas</option>
+                            <option value="prioritas">Prioritas</option>
+                            <option value="normal">Normal</option>
+                        </select>
+                    </div>
+
+                    <!-- Tombol -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit"class="btn btn-primary w-100">
+                            Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Aktivitas Distribusi -->
     <div class="card shadow border-0 mb-4">
 

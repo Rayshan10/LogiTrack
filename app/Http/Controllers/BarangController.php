@@ -334,9 +334,51 @@ class BarangController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $rankingSAW = Barang::orderByDesc(
-            'nilai_saw'
-        )->get();
+        $rankingSAW = Barang::query();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filter prioritas SAW
+        |--------------------------------------------------------------------------
+        */
+
+        if(request('prioritas'))
+        {
+            if(request('prioritas')
+                == 'sangat_prioritas')
+            {
+                $rankingSAW->where(
+                    'nilai_saw',
+                    '>=',
+                    0.80
+                );
+            }
+
+            elseif(request('prioritas')
+                == 'prioritas')
+            {
+                $rankingSAW
+                    ->whereBetween(
+                        'nilai_saw',
+                        [0.60, 0.79]
+                    );
+            }
+
+            elseif(request('prioritas')
+                == 'normal')
+            {
+                $rankingSAW->where(
+                    'nilai_saw',
+                    '<',
+                    0.60
+                );
+            }
+        }
+
+        $rankingSAW =
+            $rankingSAW
+                ->orderByDesc('nilai_saw')
+                ->get();
 
         /*
         |--------------------------------------------------------------------------

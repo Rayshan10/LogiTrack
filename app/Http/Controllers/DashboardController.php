@@ -36,11 +36,62 @@ class DashboardController extends Controller
                 'Barang Diterima'
             )->count();
 
+        $trackingTerbaru = Tracking::with('barang');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search kode barang
+        |--------------------------------------------------------------------------
+        */
+
+        if(request('kode_barang'))
+        {
+            $trackingTerbaru->whereHas('barang',
+                function($query)
+                {
+                    $query->where(
+                        'kode_barang',
+                        'like',
+                        '%' .
+                        request('kode_barang') .
+                        '%'
+                    );
+                }
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filter status
+        |--------------------------------------------------------------------------
+        */
+
+        if(request('status'))
+        {
+            $trackingTerbaru->where(
+                'status',
+            request('status')
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filter tanggal
+        |--------------------------------------------------------------------------
+        */
+
+        if(request('tanggal'))
+        {
+            $trackingTerbaru->whereDate(
+                'created_at',
+                request('tanggal')
+            );
+        }
+
         $trackingTerbaru =
-            Tracking::with('barang')
-                    ->latest()
-                    ->take(5)
-                    ->get();
+            $trackingTerbaru
+                ->latest()
+                ->get();
         
         $rankingSAW = 
             Barang::orderByDesc(
