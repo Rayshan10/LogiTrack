@@ -11,10 +11,6 @@
             Dashboard Monitoring Logistik
         </h2>
 
-        <a href="/hitung-saw" class="btn btn-success">
-            Hitung Prioritas Distribusi (SAW)
-        </a>
-
     </div>
 
     <!-- Statistik -->
@@ -186,6 +182,8 @@
                 <thead class="table-dark">
 
                     <tr>
+                        <th>User</th>
+
                         <th>Kode Barang</th>
 
                         <th>Nama Barang</th>
@@ -204,6 +202,9 @@
                     @foreach($trackingTerbaru as $tracking)
 
                     <tr>
+                        <td>
+                            {{ $tracking->user->name }}
+                        </td>
                         <td>
                             {{ $tracking->barang->kode_barang }}
                         </td>

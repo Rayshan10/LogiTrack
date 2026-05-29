@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Tracking;
@@ -65,6 +66,8 @@ class BarangController extends Controller
         Tracking::create([
 
             'barang_id' => $barang->id,
+
+            'user_id' => Auth::id(),
 
             'status' => 'Barang Diproses',
 
@@ -227,6 +230,7 @@ class BarangController extends Controller
         // tambah timeline tracking
         Tracking::create([
             'barang_id' => $barang->id,
+            'user_id' => Auth::id(),
             'status'    => $request->status,
             'lokasi'    => $request->lokasi,
         ]);

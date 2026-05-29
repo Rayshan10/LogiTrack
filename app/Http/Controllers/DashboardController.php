@@ -36,7 +36,10 @@ class DashboardController extends Controller
                 'Barang Diterima'
             )->count();
 
-        $trackingTerbaru = Tracking::with('barang');
+        $trackingTerbaru = Tracking::with(
+            'barang',
+            'user'
+            );
 
         /*
         |--------------------------------------------------------------------------
