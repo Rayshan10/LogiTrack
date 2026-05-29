@@ -12,7 +12,73 @@
 
         </h3>
 
-        <table class="table table-bordered table-striped">
+        <div class="alert alert-info">
+
+    <strong>Kurir:</strong>
+
+    {{ auth()->user()->name }}
+
+</div>
+
+        <div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body text-center">
+
+                <h6>Total Aktivitas</h6>
+
+                <h2 class="text-primary">
+                    {{ $totalPengiriman }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body text-center">
+
+                <h6>Barang Dikirim</h6>
+
+                <h2 class="text-warning">
+                    {{ $barangDikirim }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body text-center">
+
+                <h6>Barang Diterima</h6>
+
+                <h2 class="text-success">
+                    {{ $barangDiterima }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <table class="table table-bordered table-striped shadow-sm">
 
             <thead class="table-primary">
 

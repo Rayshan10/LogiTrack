@@ -103,6 +103,11 @@ Route::middleware([
     Route::get('/export-saw-pdf',
         [BarangController::class, 'exportSAWPDF']);
 
+    Route::resource(
+        'kurir',
+        \App\Http\Controllers\KurirController::class
+    );
+
 });
 
 /*

@@ -100,6 +100,11 @@
                 <i class="bi bi-qr-code"></i>
                 Export QR
             </a>
+
+            <a href="{{ route('kurir.index') }}">
+                <i class="bi bi-people"></i>
+                Kelola Kurir
+            </a>
         @endif
 
         {{-- MENU KURIR --}}

@@ -15,14 +15,44 @@ class RiwayatPengirimanController extends Controller
             )
             ->where(
                 'user_id',
-                    Auth::id()
+                Auth::id()
             )
             ->latest()
             ->get();
 
+        $totalPengiriman = Tracking::where(
+            'user_id',
+            Auth::id()
+        )->count();
+
+        $barangDikirim = Tracking::where(
+            'user_id',
+            Auth::id()
+        )
+        ->where(
+            'status',
+            'Barang Dikirim'
+        )
+        ->count();
+
+        $barangDiterima = Tracking::where(
+            'user_id',
+            Auth::id()
+        )
+        ->where(
+            'status',
+            'Barang Diterima'
+        )
+        ->count();
+
         return view(
             'kurir.riwayat',
-            compact('riwayat')
+            compact(
+                'riwayat',
+                'totalPengiriman',
+                'barangDikirim',
+                'barangDiterima'
+            )
         );
     }
 }
