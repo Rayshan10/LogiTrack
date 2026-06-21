@@ -100,6 +100,9 @@ Route::middleware([
 
     Route::get('/hitung-saw',
         [BarangController::class, 'hitungSAW']);
+    
+    Route::post('/proses-saw',
+    [BarangController::class, 'hitungSAW']);
 
     Route::get('/export-saw-pdf',
         [BarangController::class, 'exportSAWPDF']);

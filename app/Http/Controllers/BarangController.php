@@ -320,11 +320,14 @@ class BarangController extends Controller
     {
         $this->prosesSAW();
 
-        return redirect('/dashboard')
-            ->with(
-                'success',
-                'Perhitungan SAW berhasil'
-            );
+        $rankingSAW = Barang::orderByDesc(
+            'nilai_saw'
+        )->get();
+
+        return view(
+            'barang.hitung-saw',
+            compact('rankingSAW')
+        );
     }
 
     public function exportSAWPDF()

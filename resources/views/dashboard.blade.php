@@ -13,17 +13,41 @@
 
     </div>
 
-    <!-- Statistik -->
-    <div class="row">
+    <!-- KPI Dashboard -->
 
-        <!-- Total Barang -->
-        <div class="col-md-3 mb-4">
+    <div class="row mb-4">
 
-            <div class="card shadow border-0">
+        <div class="col-lg col-md-6 mb-3">
 
-                <div class="card-body">
+            <div class="card shadow border-0 bg-dark text-white h-100">
 
-                    <h6 class="text-muted">
+                <div class="card-body text-center">
+
+                    <i class="bi bi-truck fs-1"></i>
+
+                    <h6 class="mt-2">
+                        Total Kurir
+                    </h6>
+
+                    <h2>
+                        {{ $totalKurir }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg col-md-6 mb-3">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-box-seam fs-1 text-primary"></i>
+
+                    <h6 class="mt-2 text-muted">
                         Total Barang
                     </h6>
 
@@ -37,14 +61,15 @@
 
         </div>
 
-        <!-- Barang Diproses -->
-        <div class="col-md-3 mb-4">
+        <div class="col-lg col-md-6 mb-3">
 
-            <div class="card shadow border-0 bg-warning text-white">
+            <div class="card shadow border-0 bg-warning text-white h-100">
 
-                <div class="card-body">
+                <div class="card-body text-center">
 
-                    <h6>
+                    <i class="bi bi-hourglass-split fs-1"></i>
+
+                    <h6 class="mt-2">
                         Barang Diproses
                     </h6>
 
@@ -58,14 +83,15 @@
 
         </div>
 
-        <!-- Barang Dikirim -->
-        <div class="col-md-3 mb-4">
+        <div class="col-lg col-md-6 mb-3">
 
-            <div class="card shadow border-0 bg-primary text-white">
+            <div class="card shadow border-0 bg-primary text-white h-100">
 
-                <div class="card-body">
+                <div class="card-body text-center">
 
-                    <h6>
+                    <i class="bi bi-send fs-1"></i>
+
+                    <h6 class="mt-2">
                         Barang Dikirim
                     </h6>
 
@@ -79,14 +105,15 @@
 
         </div>
 
-        <!-- Barang Diterima -->
-        <div class="col-md-3 mb-4">
+        <div class="col-lg col-md-6 mb-3">
 
-            <div class="card shadow border-0 bg-success text-white">
+            <div class="card shadow border-0 bg-success text-white h-100">
 
-                <div class="card-body">
+                <div class="card-body text-center">
 
-                    <h6>
+                    <i class="bi bi-check-circle fs-1"></i>
+
+                    <h6 class="mt-2">
                         Barang Diterima
                     </h6>
 
@@ -251,236 +278,66 @@
 
     </div>
 
-    <!-- SAW Section -->
-    <div class="card shadow border-0">
+<div class="card shadow border-0 mb-4">
 
-        <div class="card-body">
+    <div class="card-header bg-primary text-white">
 
-            <h4 class="mb-4">
+        Grafik Status Distribusi
 
-                Ranking Prioritas Distribusi
-                (Metode SAW)
+    </div>
 
-            </h4>
+    <div class="card-body">
 
-            <!-- Barang Prioritas -->
-            @php
-                $topPriority = $rankingSAW->first();
-            @endphp
-
-            @if($topPriority)
-
-            <div class="alert alert-danger">
-
-                <h5>
-                    Barang Prioritas Tertinggi
-                </h5>
-
-                <strong>
-                    {{ $topPriority->kode_barang }}
-                </strong>
-
-                -
-                {{ $topPriority->nama_barang }}
-
-                <br>
-
-                Nilai SAW:
-                <strong>
-                    {{ $topPriority->nilai_saw }}
-                </strong>
-
-            </div>
-
-            @endif
-
-            <!-- Grafik SAW -->
-            <div class="mb-5">
-
-                <canvas id="sawChart"></canvas>
-
-            </div>
-
-            <!-- Table Ranking -->
-            <table class="table table-bordered table-striped">
-
-                <thead class="table-dark">
-
-                    <tr>
-
-                        <th>Ranking</th>
-
-                        <th>Kode Barang</th>
-
-                        <th>Nama Barang</th>
-
-                        <th>Nilai SAW</th>
-
-                        <th>Prioritas</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @foreach($rankingSAW as $index => $b)
-
-                    <tr>
-
-                        <td>
-                            {{ $index + 1 }}
-                        </td>
-
-                        <td>
-                            {{ $b->kode_barang }}
-                        </td>
-
-                        <td>
-                            {{ $b->nama_barang }}
-                        </td>
-
-                        <td>
-
-                            <strong>
-                                {{ $b->nilai_saw }}
-                            </strong>
-
-                        </td>
-
-                        <td>
-
-                            @if($b->nilai_saw >= 0.80)
-
-                                <span class="badge bg-danger">
-                                    Sangat Prioritas
-                                </span>
-
-                            @elseif($b->nilai_saw >= 0.60)
-
-                                <span class="badge bg-warning text-dark">
-                                    Prioritas
-                                </span>
-
-                            @else
-
-                                <span class="badge bg-success">
-                                    Normal
-                                </span>
-
-                            @endif
-
-                        </td>
-
-                    </tr>
-
-                    @endforeach
-
-                </tbody>
-
-            </table>
-
-        </div>
+        <canvas id="grafikStatus"></canvas>
 
     </div>
 
 </div>
 
-<!-- Chart.js -->
-<canvas id="sawChart"></canvas>
+@push('scripts')
+
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function ()
-{
+document.addEventListener('DOMContentLoaded', function () {
+
     const ctx =
-        document.getElementById(
-            'sawChart'
-        );
+        document.getElementById('grafikStatus');
 
-    if (!ctx)
-    {
-        console.log(
-            'Canvas sawChart tidak ditemukan'
-        );
-
-        return;
-    }
+    if (!ctx) return;
 
     new Chart(ctx, {
 
-        type: 'bar',
+        type: 'doughnut',
 
         data: {
 
             labels: [
 
-                @foreach($rankingSAW as $b)
-
-                    '{{ $b->kode_barang }}',
-
-                @endforeach
+                'Diproses',
+                'Dikirim',
+                'Diterima'
 
             ],
 
             datasets: [{
 
-                label:
-                    'Nilai SAW',
-
                 data: [
 
-                    @foreach($rankingSAW as $b)
-
-                        {{ $b->nilai_saw }},
-
-                    @endforeach
+                    {{ $barangDiproses }},
+                    {{ $barangDikirim }},
+                    {{ $barangDiterima }}
 
                 ],
 
                 backgroundColor: [
 
-                    '#dc3545',
                     '#ffc107',
-                    '#198754',
                     '#0d6efd',
-                    '#6f42c1'
+                    '#198754'
 
-                ],
-
-                borderWidth: 1
+                ]
 
             }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            plugins: {
-
-                legend: {
-
-                    display: true
-
-                }
-
-            },
-
-            scales: {
-
-                y: {
-
-                    beginAtZero: true,
-
-                    max: 1
-
-                }
-
-            }
-
         }
 
     });
@@ -488,5 +345,7 @@ document.addEventListener(
 });
 
 </script>
+
+@endpush
 
 @endsection

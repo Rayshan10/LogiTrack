@@ -91,14 +91,9 @@
                 Laporan Distribusi
             </a>
 
-            <a href="/hitung-saw">
-                <i class="bi bi-graph-up-arrow"></i>
+            <a href="{{ url('/hitung-saw') }}">
+                <i class="bi bi-graph-up"></i>
                 Perhitungan SAW
-            </a>
-
-            <a href="/export-saw-pdf">
-                <i class="bi bi-file-earmark-pdf"></i>
-                Laporan SAW
             </a>
 
             <a href="/barang/export/pdf-qr">

@@ -4,52 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Tracking;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $totalBarang =
-            Barang::count();
+        $totalBarang = Barang::count();
 
-        $barangDiproses =
-            Barang::where(
-                'status',
-                'Barang Diproses'
-            )->count();
+        $totalKurir = User::where(
+            'role',
+            'kurir'
+        )->count();
 
-        $barangDikirim =
-            Barang::where(
-                'status',
-                'Barang Dikirim'
-            )->count();
+        $barangDiproses = Barang::where(
+            'status',
+            'Barang Diproses'
+        )->count();
 
-        $barangSampaiGudang =
-            Barang::where(
-                'status',
-                'Barang Sampai Gudang'
-            )->count();
+        $barangDikirim = Barang::where(
+            'status',
+            'Barang Dikirim'
+        )->count();
 
-        $barangDiterima =
-            Barang::where(
-                'status',
-                'Barang Diterima'
-            )->count();
+        $barangDiterima = Barang::where(
+            'status',
+            'Barang Diterima'
+        )->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Aktivitas Distribusi Terbaru
+        |--------------------------------------------------------------------------
+        */
 
         $trackingTerbaru = Tracking::with(
             'barang',
             'user'
-            );
-
-        /*
-        |--------------------------------------------------------------------------
-        | Search kode barang
-        |--------------------------------------------------------------------------
-        */
+        );
 
         if(request('kode_barang'))
         {
-            $trackingTerbaru->whereHas('barang',
+            $trackingTerbaru->whereHas(
+                'barang',
                 function($query)
                 {
                     $query->where(
@@ -63,25 +60,13 @@ class DashboardController extends Controller
             );
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Filter status
-        |--------------------------------------------------------------------------
-        */
-
         if(request('status'))
         {
             $trackingTerbaru->where(
                 'status',
-            request('status')
+                request('status')
             );
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Filter tanggal
-        |--------------------------------------------------------------------------
-        */
 
         if(request('tanggal'))
         {
@@ -91,30 +76,33 @@ class DashboardController extends Controller
             );
         }
 
-        $trackingTerbaru =
-            $trackingTerbaru
-                ->latest()
-                ->get();
-        
-        $rankingSAW = 
-            Barang::orderByDesc(
-                'nilai_saw'
-            )->get();
+        $trackingTerbaru = $trackingTerbaru
+            ->latest()
+            ->get();
 
-        return view('dashboard', compact(
+        /*
+        |--------------------------------------------------------------------------
+        | Grafik Distribusi Bulanan
+        |--------------------------------------------------------------------------
+        */
 
-            'totalBarang',
+        $grafikStatus = [
+    'Diproses' => $barangDiproses,
+    'Dikirim' => $barangDikirim,
+    'Diterima' => $barangDiterima,
+];
 
-            'barangDiproses',
-
-            'barangDikirim',
-
-            'barangDiterima',
-
-            'trackingTerbaru',
-
-            'rankingSAW'
-
-        ));
+        return view(
+            'dashboard',
+            compact(
+                'totalBarang',
+                'totalKurir',
+                'barangDiproses',
+                'barangDikirim',
+                'barangDiterima',
+                'trackingTerbaru',
+                'grafikStatus'
+            )
+        );
     }
 }
