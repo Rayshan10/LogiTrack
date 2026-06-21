@@ -168,4 +168,21 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::middleware([
+    'auth',
+    'role:admin'
+])->group(function () {
+
+    Route::get(
+        '/laporan-distribusi',
+        [App\Http\Controllers\LaporanController::class, 'index']
+    )->name('laporan.index');
+
+    Route::post(
+        '/laporan-distribusi/export',
+        [App\Http\Controllers\LaporanController::class, 'export']
+    )->name('laporan.export');
+
+});
+
 require __DIR__.'/auth.php';

@@ -86,6 +86,11 @@
                 Data Barang
             </a>
 
+            <a href="{{ route('laporan.index') }}">
+                <i class="bi bi-file-earmark-pdf"></i>
+                Laporan Distribusi
+            </a>
+
             <a href="/hitung-saw">
                 <i class="bi bi-graph-up-arrow"></i>
                 Perhitungan SAW

@@ -157,27 +157,24 @@ class BarangController extends Controller
             );
     }
 
-    public function downloadQr(Barang $barang)
+    public function downloadQr($id)
     {
-        $qr = base64_decode($barang->qr_code);
+        $barang = Barang::findOrFail($id);
 
-        return response($qr)
+        $svg = base64_decode($barang->qr_code);
 
-            ->header(
-                'Content-Type',
-                'image/svg+xml'
-            )
-
+        return response($svg)
+            ->header('Content-Type', 'image/svg+xml')
             ->header(
                 'Content-Disposition',
-                'attachment; filename="qr-' .
-                $barang->kode_barang .
-                '.svg"'
+                'attachment; filename="QR-'.$barang->kode_barang.'.svg"'
             );
     }
 
-    public function printQr(Barang $barang)
+    public function printQr($id)
     {
+        $barang = Barang::findOrFail($id);
+
         return view(
             'barang.print-qr',
             compact('barang')

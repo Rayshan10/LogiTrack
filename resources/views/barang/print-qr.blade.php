@@ -2,47 +2,105 @@
 <html>
 <head>
 
-    <title>Cetak QR Barang</title>
+<title>Label Pengiriman</title>
 
-    <style>
+<style>
 
-        body{
-            font-family: Arial;
-            text-align:center;
-            margin-top:50px;
-        }
+body{
+    font-family: Arial, sans-serif;
+}
 
-        .qr-box{
-            border:1px solid #000;
-            padding:20px;
-            display:inline-block;
-        }
+.label{
+    width: 420px;
+    border: 2px solid #000;
+    padding: 15px;
+    margin: auto;
+}
 
-    </style>
+.header{
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+table{
+    width:100%;
+}
+
+table td{
+    padding:5px;
+}
+
+.qr{
+    text-align:center;
+    margin-top:15px;
+}
+
+.footer{
+    margin-top:15px;
+    text-align:center;
+    font-size:12px;
+}
+
+.qr svg{
+    max-width: 180px;
+}
+</style>
 
 </head>
-<body>
 
-<div class="qr-box">
+<body onload="window.print()">
 
-    <h3>
-        {{ $barang->nama_barang }}
-    </h3>
+<div class="label">
 
-    <p>
-        {{ $barang->kode_barang }}
-    </p>
+    <div class="header">
 
-    <img src="data:image/svg+xml;base64,{{ $barang->qr_code }}"
-        width="300">
+        LOGISTIK DISTRIBUSI
+
+    </div>
+
+    <table>
+
+        <tr>
+            <td width="130"><b>Kode Barang</b></td>
+            <td width="10">:</td>
+            <td>{{ $barang->kode_barang }}</td>
+        </tr>
+
+        <tr>
+            <td><b>Nama Barang</b></td>
+            <td>:</td>
+            <td>{{ $barang->nama_barang }}</td>
+        </tr>
+
+        <tr>
+            <td><b>Kategori</b></td>
+            <td>:</td>
+            <td>{{ $barang->kategori }}</td>
+        </tr>
+
+        <tr>
+            <td><b>Status</b></td>
+            <td>:</td>
+            <td>{{ $barang->status }}</td>
+        </tr>
+
+    </table>
+
+    <div class="qr">
+
+        {!! base64_decode($barang->qr_code) !!}
+
+    </div>
+
+    <div class="footer">
+
+        Scan QR untuk proses distribusi barang
+
+    </div>
 
 </div>
-
-<script>
-
-window.print();
-
-</script>
 
 </body>
 </html>
