@@ -9,7 +9,7 @@ use App\Models\Tracking;
 
 class KurirController extends Controller
 {
-   public function index()
+    public function index()
 {
     $kurir = User::where(
         'role',
@@ -146,55 +146,67 @@ class KurirController extends Controller
     }
 
     public function statistik($id)
-{
-    $kurir = User::findOrFail($id);
+    {
+        $kurir = User::findOrFail($id);
 
-    $totalAktivitas = Tracking::where(
-        'user_id',
-        $id
-    )->count();
+        $totalAktivitas = Tracking::where(
+            'user_id',
+            $id
+        )->count();
 
-    $barangDikirim = Tracking::where(
-        'user_id',
-        $id
-    )
-    ->where(
-        'status',
-        'Barang Dikirim'
-    )
-    ->count();
-
-    $barangDiterima = Tracking::where(
-        'user_id',
-        $id
-    )
-    ->where(
-        'status',
-        'Barang Diterima'
-    )
-    ->count();
-
-    $aktivitasBulanan = Tracking::selectRaw(
-            'MONTH(created_at) as bulan,
-             COUNT(*) as total'
-        )
-        ->where(
+        $barangDikirim = Tracking::where(
             'user_id',
             $id
         )
-        ->groupBy('bulan')
-        ->orderBy('bulan')
-        ->get();
-
-    return view(
-        'kurir-admin.statistik',
-        compact(
-            'kurir',
-            'totalAktivitas',
-            'barangDikirim',
-            'barangDiterima',
-            'aktivitasBulanan'
+        ->where(
+            'status',
+            'Barang Dikirim'
         )
-    );
-}
+        ->count();
+
+        $barangDiterima = Tracking::where(
+            'user_id',
+            $id
+        )
+        ->where(
+            'status',
+            'Barang Diterima'
+        )
+        ->count();
+
+        $aktivitasBulanan = Tracking::selectRaw(
+                'MONTH(created_at) as bulan,
+                COUNT(*) as total'
+            )
+            ->where(
+                'user_id',
+                $id
+            )
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        $riwayat = Tracking::with('barang')
+            ->where('user_id', $id)
+            ->latest()
+            ->get();
+
+        $persentaseKeberhasilan =
+            $barangDikirim > 0
+                ? round(($barangDiterima / $barangDikirim) * 100, 2)
+                : 0;
+
+        return view(
+            'kurir-admin.statistik',
+            compact(
+                'kurir',
+                'totalAktivitas',
+                'barangDikirim',
+                'barangDiterima',
+                'aktivitasBulanan',
+                'riwayat',
+                'persentaseKeberhasilan'
+            )
+        );
+    }
 }
