@@ -1,132 +1,125 @@
 @extends('layouts.app')
 
+@section('title', 'Dashboard')
+
 @section('content')
 
 <div class="container-fluid">
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-
         <h2>
             Dashboard Monitoring Logistik
         </h2>
-
     </div>
 
     <!-- KPI Dashboard -->
+    <div class="row g-4 mb-4">
 
-    <div class="row mb-4">
-
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-dark text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-truck fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Total Kurir -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-dark text-white h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-secondary">
+                        <i class="bi bi-person-badge-fill"></i>
+                    </div>
+                    <div class="kpi-title">
                         Total Kurir
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $totalKurir }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-people"></i>
+                        Kurir aktif
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-box-seam fs-1 text-primary"></i>
-
-                    <h6 class="mt-2 text-muted">
+        <!-- Total Barang -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-primary text-white">
+                        <i class="bi bi-box-seam-fill"></i>
+                    </div>
+                    <div class="kpi-title text-muted">
                         Total Barang
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $totalBarang }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-box"></i>
+                        Barang terdaftar
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-warning text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-hourglass-split fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Barang Diproses -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-warning text-dark h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-white text-warning">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <div class="kpi-title">
                         Barang Diproses
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $barangDiproses }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-arrow-repeat"></i>
+                        Sedang diproses
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-primary text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-send fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Barang Dikirim -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-white text-primary">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="kpi-title">
                         Barang Dikirim
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $barangDikirim }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-send"></i>
+                        Dalam perjalanan
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-success text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-check-circle fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Barang Diterima -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-white text-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="kpi-title">
                         Barang Diterima
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $barangDiterima }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-check2-all"></i>
+                        Pengiriman selesai
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <!-- Filter -->
@@ -190,12 +183,21 @@
 
     <!-- Aktivitas Distribusi -->
     <div class="card shadow border-0 mb-4">
-
         <div class="card-body">
-
-            <h4 class="mb-4">
-                Aktivitas Distribusi Terbaru
-            </h4>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="mb-1">
+                        Aktivitas Distribusi Terbaru
+                    </h3>
+                    <small class="text-muted">
+                        Monitoring aktivitas distribusi barang secara real-time
+                    </small>
+                </div>
+                <span class="badge bg-primary fs-6">
+                    {{ $trackingTerbaru->count() }}
+                    Aktivitas
+                </span>
+            </div>
 
             @php
                 $barangDiterimaTerbaru = $trackingTerbaru
@@ -203,33 +205,26 @@
                     ->first();
             @endphp
 
-            <table class="table table-bordered table-striped">
-
+            <table class="table table-hover align-middle">
                 <thead class="table-dark">
-
                     <tr>
                         <th>User</th>
-
                         <th>Kode Barang</th>
-
                         <th>Nama Barang</th>
-
                         <th>Status</th>
-
                         <th>Lokasi</th>
-
                         <th>Waktu</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
-
                     @foreach($trackingTerbaru as $tracking)
-
                     <tr>
                         <td>
-                            {{ $tracking->user->name }}
+                            <i class="bi bi-person-circle text-primary"></i>
+                            <strong>
+                                {{ $tracking->user->name }}
+                            </strong>
                         </td>
                         <td>
                             {{ $tracking->barang->kode_barang }}
@@ -237,7 +232,6 @@
                         <td>
                             {{ $tracking->barang->nama_barang }}
                         </td>
-
                         <td>
                             @if($tracking->status == 'Barang Diproses')
                                 <span class="badge bg-warning text-dark">
@@ -259,23 +253,23 @@
                         </td>
 
                         <td>
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
                             {{ $tracking->lokasi }}
                         </td>
 
                         <td>
-                            {{ $tracking->created_at->format('d M Y H:i') }}
+                            <i class="bi bi-clock-history text-secondary"></i>
+                            {{ $tracking->created_at->format('d M Y') }}
+                            <br>
+                            <small class="text-muted">
+                                {{ $tracking->created_at->format('H:i') }}
+                            </small>
                         </td>
-
                     </tr>
-
                     @endforeach
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
 <div class="card shadow border-0 mb-4">

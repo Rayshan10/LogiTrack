@@ -88,6 +88,63 @@
             background: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
+        .kpi-card{
+            border:none;
+            border-radius:18px;
+            overflow:hidden;
+            transition:.3s;
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        .kpi-card:hover{
+            transform:translateY(-8px);
+            box-shadow:0 10px 25px rgba(13,110,253,.15);
+        }
+
+        .kpi-icon{
+            width:60px;
+            height:60px;
+            border-radius:15px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:26px;
+            margin-bottom:20px;
+        }
+
+        .kpi-number{
+            font-size:34px;
+            font-weight:bold;
+        }
+
+        .kpi-title{
+            font-size:16px;
+            font-weight:700;
+            color:inherit;
+        }
+
+        .kpi-number{
+            font-size:40px;
+            font-weight:700;
+            line-height:1.1;
+        }
+
+        .kpi-footer{
+            margin-top:18px;
+            font-size:14px;
+            color:inherit;
+            font-weight:500;
+        }
+
+        .table-hover tbody tr{
+            transition:.2s;
+        }
+
+        .table-hover tbody tr:hover{
+            transform:scale(1.01);
+            box-shadow:0 3px 12px rgba(0,0,0,.08);
+        }
     </style>
 </head>
 
@@ -167,32 +224,60 @@
     <div class="content">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light navbar-custom rounded mb-4 px-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow-sm mb-4 px-4">
         <div class="container-fluid">
-            <h5 class="mb-0">
-                Sistem Monitoring Distribusi Barang
-            </h5>
-
-    <div class="d-flex align-items-center gap-2">
-        <span>
-            Halo, {{ Auth::user()->name }}
-        </span>
-        <a href="/profile"
-            class="btn btn-primary btn-sm">
-            Profile
-        </a>
-        <form method="POST"
-            action="{{ route('logout') }}">
-            @csrf
-                <button type="submit"
-                    class="btn btn-danger btn-sm">
-                    Logout
-                </button>
-        </form>
-
-</div>
-
-        </nav>
+            <div>
+                <h4 class="mb-0 fw-bold">
+                    @yield('title', 'Dashboard')
+                </h4>
+                <small class="text-muted">
+                    Sistem Monitoring Distribusi Barang
+                </small>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="text-end me-3">
+                    <div class="fw-semibold">
+                        {{ Auth::user()->name }}
+                    </div>
+                    <small class="text-muted">
+                        {{ ucfirst(Auth::user()->role) }}
+                    </small>
+                </div>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-light rounded-circle border"
+                        data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-4"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item"
+                                href="{{ route('profile.edit') }}">
+                                <i class="bi bi-person"></i>
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form
+                                method="POST"
+                                action="{{ route('logout') }}">
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
 
         <!-- Main Content -->
         @yield('content')

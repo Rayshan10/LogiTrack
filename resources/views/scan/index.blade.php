@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Scan QR')
+
 @section('content')
 
 <div class="card mb-4">

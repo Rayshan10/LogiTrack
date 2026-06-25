@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Statistik Kurir')
+
 @section('content')
 
 <div class="container-fluid">
@@ -7,10 +9,6 @@
     <div class="card shadow border-0 mb-4">
 
         <div class="card-body">
-
-            <h2 class="mb-3">
-                Statistik Kurir
-            </h2>
 
             <h4>
                 {{ $kurir->name }}
