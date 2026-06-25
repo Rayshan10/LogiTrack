@@ -8,127 +8,118 @@
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-
         <h2>
             Dashboard Monitoring Logistik
         </h2>
-
     </div>
 
     <!-- KPI Dashboard -->
+    <div class="row g-4 mb-4">
 
-    <div class="row mb-4">
-
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-dark text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-truck fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Total Kurir -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-dark text-white h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-secondary">
+                        <i class="bi bi-person-badge-fill"></i>
+                    </div>
+                    <div class="kpi-title">
                         Total Kurir
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $totalKurir }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-people"></i>
+                        Kurir aktif
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-box-seam fs-1 text-primary"></i>
-
-                    <h6 class="mt-2 text-muted">
+        <!-- Total Barang -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-primary text-white">
+                        <i class="bi bi-box-seam-fill"></i>
+                    </div>
+                    <div class="kpi-title text-muted">
                         Total Barang
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $totalBarang }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-box"></i>
+                        Barang terdaftar
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-warning text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-hourglass-split fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Barang Diproses -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-warning text-dark h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-white text-warning">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <div class="kpi-title">
                         Barang Diproses
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $barangDiproses }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-arrow-repeat"></i>
+                        Sedang diproses
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-primary text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-send fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Barang Dikirim -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-white text-primary">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="kpi-title">
                         Barang Dikirim
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $barangDikirim }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-send"></i>
+                        Dalam perjalanan
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg col-md-6 mb-3">
-
-            <div class="card shadow border-0 bg-success text-white h-100">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-check-circle fs-1"></i>
-
-                    <h6 class="mt-2">
+        <!-- Barang Diterima -->
+        <div class="col-xl col-lg-4 col-md-6">
+            <div class="card kpi-card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="kpi-icon bg-white text-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="kpi-title">
                         Barang Diterima
-                    </h6>
-
-                    <h2>
+                    </div>
+                    <div class="kpi-number">
                         {{ $barangDiterima }}
-                    </h2>
-
+                    </div>
+                    <div class="kpi-footer">
+                        <i class="bi bi-check2-all"></i>
+                        Pengiriman selesai
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <!-- Filter -->

@@ -88,6 +88,54 @@
             background: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
+        .kpi-card{
+            border:none;
+            border-radius:18px;
+            overflow:hidden;
+            transition:.3s;
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        .kpi-card:hover{
+            transform:translateY(-8px);
+            box-shadow:0 10px 25px rgba(13,110,253,.15);
+        }
+
+        .kpi-icon{
+            width:60px;
+            height:60px;
+            border-radius:15px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:26px;
+            margin-bottom:20px;
+        }
+
+        .kpi-number{
+            font-size:34px;
+            font-weight:bold;
+        }
+
+        .kpi-title{
+            font-size:16px;
+            font-weight:700;
+            color:inherit;
+        }
+
+        .kpi-number{
+            font-size:40px;
+            font-weight:700;
+            line-height:1.1;
+        }
+
+        .kpi-footer{
+            margin-top:18px;
+            font-size:14px;
+            color:inherit;
+            font-weight:500;
+        }
     </style>
 </head>
 
