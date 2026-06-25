@@ -136,6 +136,15 @@
             color:inherit;
             font-weight:500;
         }
+
+        .table-hover tbody tr{
+            transition:.2s;
+        }
+
+        .table-hover tbody tr:hover{
+            transform:scale(1.01);
+            box-shadow:0 3px 12px rgba(0,0,0,.08);
+        }
     </style>
 </head>
 

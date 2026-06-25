@@ -183,12 +183,21 @@
 
     <!-- Aktivitas Distribusi -->
     <div class="card shadow border-0 mb-4">
-
         <div class="card-body">
-
-            <h4 class="mb-4">
-                Aktivitas Distribusi Terbaru
-            </h4>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="mb-1">
+                        Aktivitas Distribusi Terbaru
+                    </h3>
+                    <small class="text-muted">
+                        Monitoring aktivitas distribusi barang secara real-time
+                    </small>
+                </div>
+                <span class="badge bg-primary fs-6">
+                    {{ $trackingTerbaru->count() }}
+                    Aktivitas
+                </span>
+            </div>
 
             @php
                 $barangDiterimaTerbaru = $trackingTerbaru
@@ -196,33 +205,26 @@
                     ->first();
             @endphp
 
-            <table class="table table-bordered table-striped">
-
+            <table class="table table-hover align-middle">
                 <thead class="table-dark">
-
                     <tr>
                         <th>User</th>
-
                         <th>Kode Barang</th>
-
                         <th>Nama Barang</th>
-
                         <th>Status</th>
-
                         <th>Lokasi</th>
-
                         <th>Waktu</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
-
                     @foreach($trackingTerbaru as $tracking)
-
                     <tr>
                         <td>
-                            {{ $tracking->user->name }}
+                            <i class="bi bi-person-circle text-primary"></i>
+                            <strong>
+                                {{ $tracking->user->name }}
+                            </strong>
                         </td>
                         <td>
                             {{ $tracking->barang->kode_barang }}
@@ -230,7 +232,6 @@
                         <td>
                             {{ $tracking->barang->nama_barang }}
                         </td>
-
                         <td>
                             @if($tracking->status == 'Barang Diproses')
                                 <span class="badge bg-warning text-dark">
@@ -252,23 +253,23 @@
                         </td>
 
                         <td>
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
                             {{ $tracking->lokasi }}
                         </td>
 
                         <td>
-                            {{ $tracking->created_at->format('d M Y H:i') }}
+                            <i class="bi bi-clock-history text-secondary"></i>
+                            {{ $tracking->created_at->format('d M Y') }}
+                            <br>
+                            <small class="text-muted">
+                                {{ $tracking->created_at->format('H:i') }}
+                            </small>
                         </td>
-
                     </tr>
-
                     @endforeach
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
 <div class="card shadow border-0 mb-4">
