@@ -4,19 +4,46 @@
 
 @section('content')
 
-<div class="card card-dashboard">
-
+<div class="card shadow-sm border-0 mb-4">
     <div class="card-body">
+        <form method="GET">
+            <div class="row">
+                <div class="col-md-10">
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        class="form-control"
+                        placeholder="Cari kode atau nama barang...">
+                </div>
+                <div class="col-md-2">
+                    <button
+                        class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i>
+                        Cari
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-
-            <h3>Data Barang</h3>
-
+<div class="card card-dashboard">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">
+                    Data Barang
+                </h2>
+                <small class="text-muted">
+                    Kelola seluruh data barang distribusi
+                </small>
+            </div>
             <a href="{{ route('barang.create') }}"
-                class="btn btn-primary">
+                class="btn btn-success">
+                <i class="bi bi-plus-circle"></i>
                 Tambah Barang
             </a>
-
         </div>
 
         @if(session('success'))
@@ -25,10 +52,10 @@
             </div>
         @endif
 
-        <table class="table table-bordered table-striped">
-
+        <table class="table table-hover table-bordered align-middle">
             <thead class="table-primary">
                 <tr>
+                    <th width="60" class="text-center">No</th>
                     <th>Kode</th>
                     <th>Nama Barang</th>
                     <th>Kategori</th>
@@ -40,65 +67,81 @@
             </thead>
 
             <tbody>
-
                 @foreach($barang as $b)
-
                 <tr>
+                    <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $b->kode_barang }}</td>
                     <td>{{ $b->nama_barang }}</td>
                     <td>{{ $b->kategori }}</td>
                     <td>{{ $b->jumlah }}</td>
                     <td>
-                        <img src="data:image/svg+xml;base64,{{ $b->qr_code }}"width="180">
+                        <img src="data:image/svg+xml;base64,{{ $b->qr_code }}"width="90">
                     </td>
                     <td>
                         @if($b->status == 'Barang Diproses')
-                        <span class="badge bg-warning">
-                            {{ $b->status }}
-                        </span>
+                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                                <i class="bi bi-hourglass-split me-1"></i>
+                                Barang Diproses
+                            </span>
                         @elseif($b->status == 'Barang Dikirim')
-                        <span class="badge bg-primary">
-                            {{ $b->status }}
-                        </span>
+                            <span class="badge rounded-pill bg-primary px-3 py-2">
+                                <i class="bi bi-truck me-1"></i>
+                                Barang Dikirim
+                            </span>
                         @elseif($b->status == 'Barang Sampai Gudang')
-                        <span class="badge bg-info">
-                            {{ $b->status }}
-                        </span>
+                            <span class="badge rounded-pill bg-info text-dark px-3 py-2">
+                                <i class="bi bi-building me-1"></i>
+                                Barang Sampai Gudang
+                            </span>
+                        @elseif($b->status == 'Barang Diterima')
+                            <span class="badge rounded-pill bg-success px-3 py-2">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Barang Diterima
+                            </span>
                         @else
-                        <span class="badge bg-success">
-                        {{ $b->status }}
-                        </span>
+                            <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                <i class="bi bi-question-circle me-1"></i>
+                                {{ $b->status }}
+                            </span>
                         @endif
                     </td>
                     <td>
-                        <div class="d-flex flex-column gap-2">
-                            
-                            <button type="button"
-                                class="btn btn-success btn-sm w-100"
+                        <div class="d-grid gap-2">
+                            <!-- Preview QR -->
+                            <button
+                                type="button"
+                                class="btn btn-success btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#qrModal{{ $b->id }}">
+                                <i class="bi bi-qr-code me-1"></i>
                                 Preview QR
                             </button>
 
-                            <button class="btn btn-info btn-sm w-100"
-                                onclick="copyTrackingLink('{{ url('/barang/'.$b->kode_barang) }}')">
-                                <i class="bi bi-clipboard"></i>
-                                Copy Link Tracking
-                            </button>
+                            <!-- Detail Barang -->
+                            <a href="{{ route('barang.show', $b->kode_barang) }}"
+                                class="btn btn-info btn-sm">
+                                <i class="bi bi-eye me-1"></i>
+                                Detail Barang
+                            </a>
 
+                            <!-- Edit -->
                             <a href="{{ route('barang.edit', $b->kode_barang) }}"
-                                class="btn btn-warning btn-sm w-100">
-                                <i class="bi bi-pencil"></i>
+                                class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square me-1"></i>
                                 Edit
                             </a>
 
-                            <form action="{{ route('barang.destroy', $b->kode_barang) }}"
+                            <!-- Hapus -->
+                            <form
+                                action="{{ route('barang.destroy', $b->kode_barang) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                        class="btn btn-danger btn-sm w-100">
-                                        <i class="bi bi-trash"></i>
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger btn-sm w-100"
+                                    onclick="return confirm('Yakin ingin menghapus data barang ini?')">
+                                    <i class="bi bi-trash me-1"></i>
                                     Hapus
                                 </button>
                             </form>
@@ -149,11 +192,16 @@
 </div>
 
 <script>
-    function copyTrackingLink(link)
-    {
-        navigator.clipboard.writeText(link);
-        alert('Link tracking berhasil disalin!');
-    }
+
+    Swal.fire({
+        title:'Hapus Barang?',
+        text:'Data yang dihapus tidak dapat dikembalikan.',
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#dc3545',
+        cancelButtonColor:'#6c757d',
+        confirmButtonText:'Ya, Hapus'
+    });
 </script>
 
 @endsection

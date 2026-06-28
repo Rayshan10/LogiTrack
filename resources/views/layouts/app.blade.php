@@ -138,12 +138,23 @@
         }
 
         .table-hover tbody tr{
-            transition:.2s;
+            transition:.25s;
         }
 
         .table-hover tbody tr:hover{
             transform:scale(1.01);
             box-shadow:0 3px 12px rgba(0,0,0,.08);
+            background:#eef5ff;
+        }
+
+        .badge{
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .3px;
+        }
+
+        .badge i{
+            margin-right: 3px;
         }
     </style>
 </head>
