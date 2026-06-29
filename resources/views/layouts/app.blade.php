@@ -156,6 +156,13 @@
         .badge i{
             margin-right: 3px;
         }
+
+        #reader{
+            border:3px dashed #0d6efd;
+            border-radius:15px;
+            padding:10px;
+            background:#f8f9fa;
+        }
     </style>
 </head>
 
