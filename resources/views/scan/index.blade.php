@@ -4,40 +4,59 @@
 
 @section('content')
 
-<div class="card mb-4">
+<div class="card shadow border-0 mb-4">
+    <div class="card-header bg-primary text-white">
+        <i class="bi bi-truck"></i>
+        Informasi Distribusi
+    </div>
+
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <label>Status Distribusi</label>
-                <select id="statusDistribusi" class="form-control">
-                    <option value="Barang Dikirim">Barang Dikirim</option>
-                    <option value="Barang Diterima">Barang Diterima</option>
+                <label class="form-label fw-semibold">
+                    Status Distribusi
+                </label>
+                <select
+                    id="statusDistribusi"
+                    class="form-select">
+                    <option value="Barang Dikirim">
+                        Barang Dikirim
+                    </option>
+                    <option value="Barang Diterima">
+                        Barang Diterima
+                    </option>
                 </select>
             </div>
-
             <div class="col-md-6">
-                <label>Lokasi</label>
-                <input type="text"
+                <label class="form-label fw-semibold">
+                    Lokasi
+                </label>
+                <input
                     id="lokasiDistribusi"
                     class="form-control"
-                    placeholder="Contoh: Gudang Jakarta">
+                    placeholder="Contoh : Gudang Jakarta">
             </div>
         </div>
     </div>
 </div>
 
-<div class="card card-dashboard">
+<div class="card shadow border-0">
     <div class="card-body">
-        <h3 class="mb-4">Scan QR Barang</h3>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-lg-7">
+                <h5 class="mb-3">
+                    <i class="bi bi-camera"></i>
+                    Kamera Scanner
+                </h5>
                 <div id="reader"></div>
             </div>
-
-            <div class="col-md-6">
-                <h5>Hasil Scan:</h5>
-                <div class="alert alert-primary" id="result">
-                    Belum ada QR Code terdeteksi
+            <div class="col-lg-5">
+                <h5 class="mb-3">
+                    <i class="bi bi-clipboard-data"></i>
+                    Hasil Scan
+                </h5>
+                <div class="alert alert-secondary" id="result">
+                    Belum ada QR Code yang dipindai.
                 </div>
             </div>
         </div>
@@ -59,11 +78,46 @@ function onScanSuccess(decodedText)
     let lokasi = document.getElementById('lokasiDistribusi').value;
 
     document.getElementById('result').innerHTML = `
-        <strong>QR:</strong><br>
-        ${decodedText}<br><br>
-        <strong>Status:</strong> ${status}<br>
-        <strong>Lokasi:</strong> ${lokasi}
+        <div class="text-start">
+            <h5 class="text-success">
+                <i class="bi bi-check-circle-fill"></i>
+                QR Berhasil Dibaca
+            </h5>
+            <hr>
+            <p>
+                <b>QR :</b>
+                ${decodedText}
+            </p>
+            <p>
+                <b>Status :</b>
+                ${status}
+            </p>
+            <p>
+                <b>Lokasi :</b>
+                ${lokasi}
+            </p>
+        </div>
     `;
+
+    if(lokasi.trim() == '')
+    {
+        Swal.fire({
+            icon:'warning',
+            title:'Lokasi Belum Diisi',
+            text:'Silakan isi lokasi distribusi.'
+        });
+
+        scanning = false;
+        return;
+    }
+
+    Swal.fire({
+        title:'Memproses QR...',
+        allowOutsideClick:false,
+        didOpen:()=>{
+            Swal.showLoading();
+        }
+    });
 
     fetch('/scan/update-status', {
         method: 'POST',
@@ -107,17 +161,11 @@ function onScanSuccess(decodedText)
             */
 
         Swal.fire({
-
             icon: 'success',
-
             title: 'Berhasil!',
-
             text: pesan,
-
             timer: 2000,
-
             showConfirmButton: false
-
         });
 
         /*
@@ -127,16 +175,17 @@ function onScanSuccess(decodedText)
         */
 
         document.getElementById('result').innerHTML = `
-
-            <div class="text-success">
-
-                <strong>
-                    QR berhasil diproses
-                </strong>
-
+            <div class="alert alert-success">
+                <h5>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Berhasil
+                </h5>
+                QR berhasil diproses.
+                <br>
+                Status :
+                <b>${status}</b>
             </div>
-
-        `;
+            `;
 
         /*
         |--------------------------------------------------------------------------
@@ -153,10 +202,8 @@ function onScanSuccess(decodedText)
         */
 
         setTimeout(() => {
-
             window.location.href =
                 '/riwayat-pengiriman';
-
         }, 2000);
 
         } else {
