@@ -12,16 +12,21 @@
                     <input
                         type="text"
                         name="search"
-                        value="{{ request('search') }}"
                         class="form-control"
-                        placeholder="Cari kode atau nama barang...">
+                        placeholder="Cari kode atau nama barang..."
+                        value="{{ request('search') }}">
                 </div>
                 <div class="col-md-2">
-                    <button
-                        class="btn btn-primary w-100">
-                        <i class="bi bi-search"></i>
-                        Cari
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary flex-fill">
+                            <i class="bi bi-search"></i>
+                            Cari
+                        </button>
+                        <a href="{{ route('barang.index') }}"
+                            class="btn btn-secondary">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </form>

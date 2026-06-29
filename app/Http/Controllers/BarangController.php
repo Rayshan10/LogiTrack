@@ -11,9 +11,23 @@ use App\Models\Tracking;
 
 class BarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $barang = Barang::all();
+        $query = Barang::query();
+
+        if ($request->filled('search')) {
+
+            $query->where(function ($q) use ($request) {
+
+                $q->where('kode_barang', 'like', '%' . $request->search . '%')
+                ->orWhere('nama_barang', 'like', '%' . $request->search . '%')
+                ->orWhere('kategori', 'like', '%' . $request->search . '%');
+
+            });
+
+        }
+
+        $barang = $query->orderBy('kode_barang')->get();
 
         return view('barang.index', compact('barang'));
     }
