@@ -44,6 +44,11 @@
                     Kelola seluruh data barang distribusi
                 </small>
             </div>
+            <a href="{{ route('barang.import') }}"
+                class="btn btn-primary">
+                <i class="bi bi-upload"></i>
+                Import Kaggle
+            </a>
             <a href="{{ route('barang.create') }}"
                 class="btn btn-success">
                 <i class="bi bi-plus-circle"></i>
