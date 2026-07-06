@@ -5,34 +5,26 @@
 @section('content')
 
 <div class="container-fluid">
-
     <div class="card shadow border-0 mb-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">
+                Perhitungan SAW
+            </h2>
 
-    <div class="card-body d-flex justify-content-between align-items-center">
-
-        <h2 class="mb-0">
-            Perhitungan SAW
-        </h2>
-
-        <div class="d-flex gap-2">
-
-            <a href="{{ url('/hitung-saw') }}"
-                class="btn btn-primary">
-                <i class="bi bi-arrow-clockwise"></i>
-                Hitung Ulang SAW
-            </a>
-
-            <a href="/export-saw-pdf"
-                class="btn btn-danger">
-                <i class="bi bi-file-earmark-pdf"></i>
-                Export PDF
-            </a>
-
+            <div class="d-flex gap-2">
+                <a href="{{ url('/hitung-saw') }}"
+                    class="btn btn-primary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Hitung Ulang SAW
+                </a>
+                <a href="/export-saw-pdf"
+                    class="btn btn-danger">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    Export PDF
+                </a>
+            </div>
         </div>
-
     </div>
-
-</div>
 
     @if($rankingSAW->count())
 

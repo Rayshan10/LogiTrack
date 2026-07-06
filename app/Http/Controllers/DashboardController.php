@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Tracking;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -87,10 +88,43 @@ class DashboardController extends Controller
         */
 
         $grafikStatus = [
-    'Diproses' => $barangDiproses,
-    'Dikirim' => $barangDikirim,
-    'Diterima' => $barangDiterima,
-];
+            'Diproses' => $barangDiproses,
+            'Dikirim' => $barangDikirim,
+            'Diterima' => $barangDiterima,
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Grafik Kategori
+        |--------------------------------------------------------------------------
+        */
+
+        $grafikKategori = Barang::select(
+                'kategori',
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('kategori')
+            ->orderByDesc('total')
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Top 10 Prioritas SAW
+        |--------------------------------------------------------------------------
+        */
+
+        $topPrioritas = Barang::orderByDesc('nilai_saw')
+            ->take(10)
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Barang Prioritas Tertinggi
+        |--------------------------------------------------------------------------
+        */
+
+$barangPrioritas = Barang::orderByDesc('nilai_saw')
+    ->first();
 
         return view(
             'dashboard',
@@ -101,7 +135,10 @@ class DashboardController extends Controller
                 'barangDikirim',
                 'barangDiterima',
                 'trackingTerbaru',
-                'grafikStatus'
+                'grafikStatus',
+                'grafikKategori',
+                'topPrioritas',
+                'barangPrioritas'
             )
         );
     }
