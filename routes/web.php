@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatPengirimanController;
+use App\Http\Controllers\ImportBarangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,10 +73,27 @@ Route::middleware([
     |--------------------------------------------------------------------------
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Import Dataset Kaggle
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/barang/import', [ImportBarangController::class, 'index'])
+        ->name('barang.import');
+
+    Route::post('/barang/import', [ImportBarangController::class, 'store'])
+        ->name('barang.import.store');
+
     Route::resource(
         'barang',
         BarangController::class
     );
+
+    Route::post(
+        '/barang/import/process',
+        [ImportBarangController::class,'process']
+    )->name('barang.import.process');
 
     /*
     |--------------------------------------------------------------------------
