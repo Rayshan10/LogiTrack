@@ -6,6 +6,7 @@ use App\Models\Barang;
 use SplFileObject;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\DB;
 
 class ImportBarangController extends Controller
 {
@@ -84,9 +85,22 @@ class ImportBarangController extends Controller
         );
 
         $limit = (int) $request->limit;
-
         $header = [];
         $imported = 0;
+        $dataImport = [];
+
+        $lastBarang = Barang::orderBy('id', 'desc')->first();
+
+        $nomor = 1;
+
+        if ($lastBarang) {
+
+            $nomor = (int) substr(
+                $lastBarang->kode_barang,
+                3
+            ) + 1;
+
+        }
 
         foreach ($csv as $index => $row) {
 
@@ -96,6 +110,7 @@ class ImportBarangController extends Controller
 
             if ($index == 0) {
                 $header = array_flip($row);
+
                 continue;
             }
 
@@ -119,14 +134,71 @@ class ImportBarangController extends Controller
                 $shipping
             );
 
-            dd($urgensi);
+            if ($imported < 10) {
+                    dump([
+                        'Product Name' => $row[$header['Product Name']],
+                        'Order Id' => $row[$header['Order Id']],
+                    ]);
+                }
+
+            $kodeBarang = 'BRG' . str_pad(
+                $nomor,
+                6,
+                '0',
+                STR_PAD_LEFT
+            );
+
+            $nomor++;
+
+            $qrCode = base64_encode(
+                QrCode::format('svg')
+                    ->size(200)
+                    ->generate($kodeBarang)
+            );
+
+            $dataImport[] = [
+
+                'kode_barang' => $kodeBarang,
+
+                'nama_barang' => $row[$header['Product Name']],
+
+                'kategori' => $row[$header['Category Name']],
+
+                'jumlah' => (int)$row[$header['Order Item Quantity']],
+
+                'deskripsi' => $row[$header['Shipping Mode']],
+
+                'qr_code' => $qrCode,
+
+                'status' => $status,
+
+                'urgensi' => $urgensi,
+
+                'lama_penyimpanan' => $lama,
+
+                'tingkat_keterlambatan' => $late,
+
+                'nilai_saw' => null,
+
+                'created_at' => now(),
+
+                'updated_at' => now()
+
+            ];
 
             // nanti isi proses import di sini
 
             $imported++;
         }
 
-        dd($imported);
+        DB::table('barangs')->insert($dataImport);
+
+        return redirect()
+            ->route('barang.index')
+            ->with(
+                'success',
+                count($dataImport) . ' data berhasil diimport.'
+            );
     }
 
     private function convertStatus(string $status): string

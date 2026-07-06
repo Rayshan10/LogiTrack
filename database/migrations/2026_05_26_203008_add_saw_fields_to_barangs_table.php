@@ -11,13 +11,13 @@ return new class extends Migration
         Schema::table('barangs', function (Blueprint $table) {
 
             $table->integer('urgensi')
-                  ->default(1);
+                ->default(1);
 
             $table->integer('lama_penyimpanan')
-                  ->default(1);
+                ->default(1);
 
             $table->integer('tingkat_keterlambatan')
-                  ->default(1);
+                ->default(1);
 
         });
     }
