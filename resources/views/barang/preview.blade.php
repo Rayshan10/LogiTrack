@@ -48,7 +48,7 @@
                         <select name="limit" class="form-select">
                             <option value="100">100 Data</option>
                             <option value="500">500 Data</option>
-                            <option value="1000"`selected>1000 Data</option>
+                            <option value="1000">1000 Data</option>
                             <option value="5000">5000 Data</option>
                             <option value="0">Semua Data</option>
                         </select>

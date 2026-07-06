@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Tracking;
 use SplFileObject;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ImportBarangController extends Controller
@@ -72,144 +74,181 @@ class ImportBarangController extends Controller
 
     public function process(Request $request)
     {
-        $path = storage_path(
-            'app/private/' .
-            session('import_file')
-        );
 
-        $csv = new SplFileObject($path);
+        DB::beginTransaction();
 
-        $csv->setFlags(
-            SplFileObject::READ_CSV |
-            SplFileObject::SKIP_EMPTY
-        );
+        try {
 
-        $limit = (int) $request->limit;
-        $header = [];
-        $imported = 0;
-        $dataImport = [];
-
-        $lastBarang = Barang::orderBy('id', 'desc')->first();
-
-        $nomor = 1;
-
-        if ($lastBarang) {
-
-            $nomor = (int) substr(
-                $lastBarang->kode_barang,
-                3
-            ) + 1;
-
-        }
-
-        foreach ($csv as $index => $row) {
-
-            if ($row == [null]) {
-                continue;
-            }
-
-            if ($index == 0) {
-                $header = array_flip($row);
-
-                continue;
-            }
-
-            if ($limit != 0 && $imported >= $limit) {
-                break;
-            }
-
-            $status = $this->convertStatus(
-                $row[$header['Delivery Status']]
+            $path = storage_path(
+                'app/private/' . session('import_file')
             );
 
-            $lama = (int) $row[$header['Days for shipping (real)']];
+            $csv = new SplFileObject($path);
 
-            $late = (int) $row[$header['Late_delivery_risk']];
-
-            $shipping = $row[$header['Shipping Mode']];
-
-            $urgensi = $this->generateUrgensi(
-                $late,
-                $lama,
-                $shipping
+            $csv->setFlags(
+                SplFileObject::READ_CSV |
+                SplFileObject::SKIP_EMPTY
             );
 
-            if ($imported < 10) {
-                    dump([
-                        'Product Name' => $row[$header['Product Name']],
-                        'Order Id' => $row[$header['Order Id']],
-                    ]);
+            $limit = (int) $request->limit;
+
+            $header = [];
+
+            $imported = 0;
+
+            $lastBarang = Barang::orderBy('id', 'desc')->first();
+
+            $nomor = 1;
+
+            if ($lastBarang) {
+
+                $nomor = (int) substr(
+                    $lastBarang->kode_barang,
+                    3
+                ) + 1;
+            }
+
+            foreach ($csv as $index => $row) {
+
+                if ($row == [null]) {
+                    continue;
                 }
 
-            $kodeBarang = 'BRG' . str_pad(
-                $nomor,
-                6,
-                '0',
-                STR_PAD_LEFT
-            );
+                if ($index == 0) {
 
-            $nomor++;
+                    $header = array_flip($row);
 
-            $qrCode = base64_encode(
-                QrCode::format('svg')
-                    ->size(200)
-                    ->generate($kodeBarang)
-            );
+                    continue;
+                }
 
-            $dataImport[] = [
+                if ($limit != 0 && $imported >= $limit) {
+                    break;
+                }
 
-                'kode_barang' => $kodeBarang,
+                // Pastikan kolom wajib ada
+                if (
+                    !isset($header['Product Name']) ||
+                    !isset($header['Category Name']) ||
+                    !isset($header['Order Item Quantity']) ||
+                    !isset($header['Days for shipping (real)']) ||
+                    !isset($header['Late_delivery_risk']) ||
+                    !isset($header['Shipping Mode'])
+                ) {
+                    continue;
+                }
 
-                'nama_barang' => $row[$header['Product Name']],
+                $namaBarang = trim(
+                    $row[$header['Product Name']]
+                );
 
-                'kategori' => $row[$header['Category Name']],
+                $kategori = trim(
+                    $row[$header['Category Name']]
+                );
 
-                'jumlah' => (int)$row[$header['Order Item Quantity']],
+                // Lewati jika barang sudah ada
+                if (
+                    Barang::where('nama_barang', $namaBarang)
+                        ->where('kategori', $kategori)
+                        ->exists()
+                ) {
+                    continue;
+                }
 
-                'deskripsi' => $row[$header['Shipping Mode']],
+                $status = 'Barang Diproses';
 
-                'qr_code' => $qrCode,
+                $lama = (int) $row[$header['Days for shipping (real)']];
 
-                'status' => $status,
+                $late = (int) $row[$header['Late_delivery_risk']];
 
-                'urgensi' => $urgensi,
+                $shipping = $row[$header['Shipping Mode']];
 
-                'lama_penyimpanan' => $lama,
+                $urgensi = $this->generateUrgensi(
+                    $late,
+                    $lama,
+                    $shipping
+                );
 
-                'tingkat_keterlambatan' => $late,
+                $kodeBarang = 'BRG' . str_pad(
+                    $nomor,
+                    6,
+                    '0',
+                    STR_PAD_LEFT
+                );
 
-                'nilai_saw' => null,
+                $barang = Barang::create([
 
-                'created_at' => now(),
+                    'kode_barang' => $kodeBarang,
 
-                'updated_at' => now()
+                    'nama_barang' => $namaBarang,
 
-            ];
+                    'kategori' => $kategori,
 
-            // nanti isi proses import di sini
+                    'jumlah' => (int) $row[$header['Order Item Quantity']],
 
-            $imported++;
-        }
+                    'deskripsi' => $shipping,
 
-        DB::table('barangs')->insert($dataImport);
+                    'status' => $status,
 
-        return redirect()
-            ->route('barang.index')
-            ->with(
-                'success',
-                count($dataImport) . ' data berhasil diimport.'
-            );
-    }
+                    'urgensi' => $urgensi,
 
-    private function convertStatus(string $status): string
-    {
-        return match($status){
-            'Advance shipping' => 'Barang Diproses',
-            'Shipping on time' => 'Barang Dikirim',
-            'Late delivery' => 'Barang Sampai Gudang',
-            'Shipping canceled' => 'Barang Diproses',
-            default => 'Barang Diproses'
-        };
+                    'lama_penyimpanan' => $lama,
+
+                    'tingkat_keterlambatan' => $late,
+
+                    'nilai_saw' => null
+
+                ]);
+
+                // Generate QR Code
+                $qr = base64_encode(
+
+                    QrCode::format('svg')
+                        ->size(250)
+                        ->generate($barang->kode_barang)
+
+                );
+
+                $barang->update([
+
+                    'qr_code' => $qr
+
+                ]);
+
+                // Tracking pertama
+                Tracking::create([
+
+                    'barang_id' => $barang->id,
+
+                    'user_id' => Auth::id() ?? 1,
+
+                    'status' => 'Barang Diproses',
+
+                    'lokasi' => 'Gudang Utama',
+
+                    'keterangan' => 'Barang berhasil diimport dari Dataset Kaggle'
+
+                ]);
+
+                $nomor++;
+
+                $imported++;
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('barang.index')
+                ->with(
+                    'success',
+                    $imported . ' data berhasil diimport.'
+                );
+
+        } catch (\Exception $e) {
+
+    DB::rollBack();
+
+    dd($e->getMessage(), $e->getLine(), $e->getFile());
+}
     }
 
     private function generateUrgensi(
