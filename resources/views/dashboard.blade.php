@@ -6,13 +6,6 @@
 
 <div class="container-fluid">
 
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>
-            Dashboard Monitoring Logistik
-        </h2>
-    </div>
-
     <!-- KPI Dashboard -->
     <div class="row g-4 mb-4">
 
@@ -272,73 +265,195 @@
         </div>
     </div>
 
-<div class="card shadow border-0 mb-4">
+    <div class="row mb-4">
+        <!-- Grafik Status -->
+        <div class="col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    Grafik Status Distribusi
+                </div>
+                <div class="card-body">
+                    <div style="height:320px">
+                        <canvas id="grafikStatus"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="card-header bg-primary text-white">
-
-        Grafik Status Distribusi
-
+        <!-- Grafik Kategori -->
+        <div class="col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white">
+                    Grafik Kategori Barang
+                </div>
+                <div class="card-body">
+                    <div style="height:320px">
+                        <canvas id="grafikKategori"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card-body">
-
-        <canvas id="grafikStatus"></canvas>
-
+    <div class="card shadow border-0 mb-4">
+        <div class="card-header bg-danger text-white">
+            🏆 Barang Prioritas Tertinggi
+        </div>
+        <div class="card-body">
+            @if($barangPrioritas)
+                <h4 class="fw-bold">
+                    {{ $barangPrioritas->nama_barang }}
+                </h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Kode</strong><br>
+                        {{ $barangPrioritas->kode_barang }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Kategori</strong><br>
+                        {{ $barangPrioritas->kategori }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Status</strong><br>
+                        {{ $barangPrioritas->status }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Nilai SAW</strong><br>
+                        <span class="badge bg-success fs-6">
+                            {{ number_format($barangPrioritas->nilai_saw,3) }}
+                        </span>
+                    </div>
+                </div>
+            @endif
+        </div>
     </div>
 
-</div>
+    <div class="card shadow border-0 mb-4">
+        <div class="card-header bg-dark text-white">
+            📊 Top 10 Prioritas Distribusi
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Kode</th>
+                        <th>Nama Barang</th>
+                        <th>Status</th>
+                        <th>Nilai SAW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($topPrioritas as $barang)
+                    <tr>
+                        <td>
+                            <span class="badge bg-primary">
+                                {{ $loop->iteration }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ $barang->kode_barang }}
+                        </td>
+                        <td>
+                            {{ $barang->nama_barang }}
+                        </td>
+                        <td>
+                            {{ $barang->status }}
+                        </td>
+                        <td>
+                            <strong>
+                                {{ number_format($barang->nilai_saw,3) }}
+                            </strong>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 @push('scripts')
 
-<script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusCtx = document.getElementById('grafikStatus');
+            if (statusCtx) {
+                new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            'Diproses',
+                            'Dikirim',
+                            'Diterima'
+                        ],
+                        datasets: [{
+                            data: [
+                                {{ $barangDiproses }},
+                                {{ $barangDikirim }},
+                                {{ $barangDiterima }}
+                            ],
 
-document.addEventListener('DOMContentLoaded', function () {
+                            backgroundColor: [
+                                '#ffc107',
+                                '#0d6efd',
+                                '#198754'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
 
-    const ctx =
-        document.getElementById('grafikStatus');
+            const kategoriCtx = document.getElementById('grafikKategori');
 
-    if (!ctx) return;
+            if (kategoriCtx) {
+                new Chart(kategoriCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($grafikKategori as $item)
+                                '{{ $item->kategori }}',
+                            @endforeach
+                        ],
 
-    new Chart(ctx, {
+                        datasets: [{
+                            label: 'Jumlah Barang',
+                            data: [
+                                @foreach($grafikKategori as $item)
+                                    {{ $item->total }},
+                                @endforeach
+                            ],
+                            backgroundColor: '#198754'
+                        }]
+                    },
 
-        type: 'doughnut',
-
-        data: {
-
-            labels: [
-
-                'Diproses',
-                'Dikirim',
-                'Diterima'
-
-            ],
-
-            datasets: [{
-
-                data: [
-
-                    {{ $barangDiproses }},
-                    {{ $barangDikirim }},
-                    {{ $barangDiterima }}
-
-                ],
-
-                backgroundColor: [
-
-                    '#ffc107',
-                    '#0d6efd',
-                    '#198754'
-
-                ]
-
-            }]
-        }
-
-    });
-
-});
-
-</script>
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 
 @endpush
 

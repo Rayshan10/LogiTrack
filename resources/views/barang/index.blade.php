@@ -44,16 +44,18 @@
                     Kelola seluruh data barang distribusi
                 </small>
             </div>
-            <a href="{{ route('barang.import') }}"
+            <div class="d-flex gap-2">
+                <a href="{{ route('barang.import') }}"
                 class="btn btn-primary">
                 <i class="bi bi-upload"></i>
-                Import Kaggle
-            </a>
-            <a href="{{ route('barang.create') }}"
-                class="btn btn-success">
-                <i class="bi bi-plus-circle"></i>
-                Tambah Barang
-            </a>
+                Import
+                </a>
+                <a href="{{ route('barang.create') }}"
+                    class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i>
+                    Tambah Barang
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
