@@ -198,70 +198,72 @@
                     ->first();
             @endphp
 
-            <table class="table table-hover align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>User</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Status</th>
-                        <th>Lokasi</th>
-                        <th>Waktu</th>
-                    </tr>
-                </thead>
+            <div class="table-responsive" style="max-height:400px; overflow-y:auto;">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>User</th>
+                            <th>Kode Barang</th>
+                            <th>Nama Barang</th>
+                            <th>Status</th>
+                            <th>Lokasi</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    @foreach($trackingTerbaru as $tracking)
-                    <tr>
-                        <td>
-                            <i class="bi bi-person-circle text-primary"></i>
-                            <strong>
-                                {{ $tracking->user->name }}
-                            </strong>
-                        </td>
-                        <td>
-                            {{ $tracking->barang->kode_barang }}
-                        </td>
-                        <td>
-                            {{ $tracking->barang->nama_barang }}
-                        </td>
-                        <td>
-                            @if($tracking->status == 'Barang Diproses')
-                                <span class="badge bg-warning text-dark">
-                                    Barang Diproses
-                                </span>
-                            @elseif($tracking->status == 'Barang Dikirim')
-                                <span class="badge bg-primary">
-                                    Barang Dikirim
-                                </span>
-                            @elseif($tracking->status == 'Barang Sampai Gudang')
-                                <span class="badge bg-info text-dark">
-                                    Barang Sampai Gudang
-                                </span>
-                            @elseif($tracking->status == 'Barang Diterima')
-                                <span class="badge bg-success">
-                                    Barang Diterima
-                                </span>
-                            @endif
-                        </td>
+                    <tbody>
+                        @foreach($trackingTerbaru as $tracking)
+                        <tr>
+                            <td>
+                                <i class="bi bi-person-circle text-primary"></i>
+                                <strong>
+                                    {{ $tracking->user->name }}
+                                </strong>
+                            </td>
+                            <td>
+                                {{ $tracking->barang->kode_barang }}
+                            </td>
+                            <td>
+                                {{ $tracking->barang->nama_barang }}
+                            </td>
+                            <td>
+                                @if($tracking->status == 'Barang Diproses')
+                                    <span class="badge bg-warning text-dark">
+                                        Barang Diproses
+                                    </span>
+                                @elseif($tracking->status == 'Barang Dikirim')
+                                    <span class="badge bg-primary">
+                                        Barang Dikirim
+                                    </span>
+                                @elseif($tracking->status == 'Barang Sampai Gudang')
+                                    <span class="badge bg-info text-dark">
+                                        Barang Sampai Gudang
+                                    </span>
+                                @elseif($tracking->status == 'Barang Diterima')
+                                    <span class="badge bg-success">
+                                        Barang Diterima
+                                    </span>
+                                @endif
+                            </td>
 
-                        <td>
-                            <i class="bi bi-geo-alt-fill text-danger"></i>
-                            {{ $tracking->lokasi }}
-                        </td>
+                            <td>
+                                <i class="bi bi-geo-alt-fill text-danger"></i>
+                                {{ $tracking->lokasi }}
+                            </td>
 
-                        <td>
-                            <i class="bi bi-clock-history text-secondary"></i>
-                            {{ $tracking->created_at->format('d M Y') }}
-                            <br>
-                            <small class="text-muted">
-                                {{ $tracking->created_at->format('H:i') }}
-                            </small>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <td>
+                                <i class="bi bi-clock-history text-secondary"></i>
+                                {{ $tracking->created_at->format('d M Y') }}
+                                <br>
+                                <small class="text-muted">
+                                    {{ $tracking->created_at->format('H:i') }}
+                                </small>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
