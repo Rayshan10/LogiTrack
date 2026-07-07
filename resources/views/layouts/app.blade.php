@@ -163,6 +163,14 @@
             padding:10px;
             background:#f8f9fa;
         }
+
+        .table thead th{
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #212529;
+            color: white;
+        }
     </style>
 </head>
 
