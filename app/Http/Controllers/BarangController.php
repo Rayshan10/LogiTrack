@@ -338,9 +338,71 @@ class BarangController extends Controller
             'nilai_saw'
         )->get();
 
+        // ============================
+        // Hitung jumlah setiap kategori
+        // ============================
+
+        $sangatPrioritas = Barang::where(
+            'nilai_saw',
+            '>=',
+            0.80
+        )->count();
+
+        $prioritas = Barang::whereBetween(
+            'nilai_saw',
+            [0.60, 0.79]
+        )->count();
+
+        $normal = Barang::where(
+            'nilai_saw',
+            '<',
+            0.60
+        )->count();
+
+        $totalBarang = Barang::count();
+
+        $kesimpulan = '';
+
+        if ($sangatPrioritas > $prioritas && $sangatPrioritas > $normal) {
+
+            $kesimpulan =
+                'Sebagian besar barang berada pada kategori Sangat Prioritas sehingga distribusi harus segera dilakukan.';
+
+        } elseif ($prioritas > $normal) {
+
+            $kesimpulan =
+                'Mayoritas barang berada pada kategori Prioritas sehingga distribusi perlu segera dijadwalkan.';
+
+        } else {
+
+            $kesimpulan =
+                'Sebagian besar barang berada pada kategori Normal sehingga distribusi masih dalam kondisi terkendali.';
+
+        }
+
+        $persenSangat = $totalBarang
+            ? round(($sangatPrioritas / $totalBarang) * 100)
+            : 0;
+
+        $persenPrioritas = $totalBarang
+            ? round(($prioritas / $totalBarang) * 100)
+            : 0;
+
+        $persenNormal = $totalBarang
+            ? round(($normal / $totalBarang) * 100)
+            : 0;
+
         return view(
             'barang.hitung-saw',
-            compact('rankingSAW')
+            compact('rankingSAW',
+                'sangatPrioritas',
+                'prioritas',
+                'normal',
+                'persenSangat',
+                'persenPrioritas',
+                'persenNormal',
+                'kesimpulan'
+            )
         );
     }
 
