@@ -261,7 +261,7 @@ http://127.0.0.1:8000
 ## 🔐 Login
 
 <p align="center">
-    <img src="screenshot/login.png" alt="Login" width="900">
+    <img src="screenshoot/login.png" alt="Login" width="900">
 </p>
 
 ---
@@ -269,15 +269,15 @@ http://127.0.0.1:8000
 ## 📊 Dashboard
 
 <p align="center">
-    <img src="screenshot/dashboard-1.png" alt="Dashboard 1" width="900">
+    <img src="screenshoot/dashboard-1.png" alt="Dashboard 1" width="900">
 </p>
 
 <p align="center">
-    <img src="screenshot/dashboard-2.png" alt="Dashboard 2" width="900">
+    <img src="screenshoot/dashboard-2.png" alt="Dashboard 2" width="900">
 </p>
 
 <p align="center">
-    <img src="screenshot/dashboard-3.png" alt="Dashboard 3" width="900">
+    <img src="screenshoot/dashboard-3.png" alt="Dashboard 3" width="900">
 </p>
 
 ---
@@ -285,7 +285,7 @@ http://127.0.0.1:8000
 ## 📦 Data Barang
 
 <p align="center">
-    <img src="screenshot/data-barang.png" alt="Data Barang" width="900">
+    <img src="screenshoot/data-barang.png" alt="Data Barang" width="900">
 </p>
 
 ---
@@ -293,7 +293,7 @@ http://127.0.0.1:8000
 ## 📄 Detail Barang
 
 <p align="center">
-    <img src="screenshot/detail-barang.png" alt="Detail Barang" width="900">
+    <img src="screenshoot/detail-barang.png" alt="Detail Barang" width="900">
 </p>
 
 ---
@@ -301,15 +301,15 @@ http://127.0.0.1:8000
 ## 📈 Dashboard SAW
 
 <p align="center">
-    <img src="screenshot/saw-1.png" alt="Dashboard SAW 1" width="900">
+    <img src="screenshoot/saw-1.png" alt="Dashboard SAW 1" width="900">
 </p>
 
 <p align="center">
-    <img src="screenshot/saw-2.png" alt="Dashboard SAW 2" width="900">
+    <img src="screenshoot/saw-2.png" alt="Dashboard SAW 2" width="900">
 </p>
 
 <p align="center">
-    <img src="screenshot/saw-3.png" alt="Dashboard SAW 3" width="900">
+    <img src="screenshoot/saw-3.png" alt="Dashboard SAW 3" width="900">
 </p>
 
 ---
@@ -317,7 +317,7 @@ http://127.0.0.1:8000
 ## 📷 Scan QR
 
 <p align="center">
-    <img src="screenshot/scan-qr.png" alt="Scan QR" width="900">
+    <img src="screenshoot/scan-qr.png" alt="Scan QR" width="900">
 </p>
 
 ---
@@ -325,7 +325,7 @@ http://127.0.0.1:8000
 ## 🚚 Riwayat Distribusi
 
 <p align="center">
-    <img src="screenshot/riwayat.png" alt="Riwayat Distribusi" width="900">
+    <img src="screenshoot/riwayat.png" alt="Riwayat Distribusi" width="900">
 </p>
 
 ---
