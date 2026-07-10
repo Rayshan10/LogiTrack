@@ -256,20 +256,77 @@ http://127.0.0.1:8000
 
 ---
 
-# 📷 Screenshot
+# 📷 Screenshot Aplikasi
 
-Tambahkan beberapa screenshot seperti:
+## 🔐 Login
 
-- Login
-![Login](screenshoot/login.png)
-- Dashboard
-- Data Barang
-- Detail Barang
-- QR Code
-- Import Dataset
-- Dashboard SAW
-- Scan QR
-- Riwayat Distribusi
+<p align="center">
+    <img src="screenshot/login.png" alt="Login" width="900">
+</p>
+
+---
+
+## 📊 Dashboard
+
+<p align="center">
+    <img src="screenshot/dashboard-1.png" alt="Dashboard 1" width="900">
+</p>
+
+<p align="center">
+    <img src="screenshot/dashboard-2.png" alt="Dashboard 2" width="900">
+</p>
+
+<p align="center">
+    <img src="screenshot/dashboard-3.png" alt="Dashboard 3" width="900">
+</p>
+
+---
+
+## 📦 Data Barang
+
+<p align="center">
+    <img src="screenshot/data-barang.png" alt="Data Barang" width="900">
+</p>
+
+---
+
+## 📄 Detail Barang
+
+<p align="center">
+    <img src="screenshot/detail-barang.png" alt="Detail Barang" width="900">
+</p>
+
+---
+
+## 📈 Dashboard SAW
+
+<p align="center">
+    <img src="screenshot/saw-1.png" alt="Dashboard SAW 1" width="900">
+</p>
+
+<p align="center">
+    <img src="screenshot/saw-2.png" alt="Dashboard SAW 2" width="900">
+</p>
+
+<p align="center">
+    <img src="screenshot/saw-3.png" alt="Dashboard SAW 3" width="900">
+</p>
+
+---
+
+## 📷 Scan QR
+
+<p align="center">
+    <img src="screenshot/scan-qr.png" alt="Scan QR" width="900">
+</p>
+
+---
+
+## 🚚 Riwayat Distribusi
+
+<p align="center">
+    <img src="screenshot/riwayat.png" alt="Riwayat Distribusi" width="900">
+</p>
 
 ---
 
