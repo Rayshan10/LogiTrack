@@ -261,6 +261,7 @@ http://127.0.0.1:8000
 Tambahkan beberapa screenshot seperti:
 
 - Login
+![Login](screenshoot/login.png)
 - Dashboard
 - Data Barang
 - Detail Barang
