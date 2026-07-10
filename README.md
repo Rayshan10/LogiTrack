@@ -407,7 +407,7 @@ Beberapa pengembangan yang dapat dilakukan di masa mendatang:
 
 Sistem Monitoring Distribusi Barang Menggunakan QR Code dan Metode Simple Additive Weighting (SAW)
 
-Universitas Muhammadiyah Sukabumi
+Universitas Logistik dan Bisnis Internasional Bandung
 
 2026
 
